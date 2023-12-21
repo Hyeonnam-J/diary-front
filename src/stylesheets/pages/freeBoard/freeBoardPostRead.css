@@ -1,0 +1,116 @@
+@import '../../common/variables.css';
+
+#read-frame {
+    width: var(--freeBoard-post-read-width);
+    height: var(--freeBoard-post-read-height);
+}
+
+#read-header {
+    height: var(--freeBoard-post-read-header-height);
+
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px;
+    gap: 10px;
+}
+
+#post-table {
+    width: 100%;
+    padding: 10px;
+}
+
+#post-table * {
+    text-align: left;
+    margin: 5px 0;
+}
+
+#post-title {
+    font-size: 2rem;
+    margin: 20px 0;
+}
+
+#post-dataAndViewCount {
+    display: flex;
+    gap: 30px;
+}
+
+#post-content {
+    margin: 30px 0;
+}
+
+#read-footer {
+    height: 50px;
+
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px;
+    gap: 10px;
+}
+
+#read-comment {
+    padding: 10px;
+}
+
+.read-comment-container {
+    margin-bottom: 30px;
+}
+
+.read-comment-header {
+    height: var(--freeBoard-comment-header-height);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.read-comment-userContainer {
+    display: flex;
+    gap: 20px;
+}
+
+.read-comment-date {
+    font-size: 0.8rem;
+    line-height: 1.6rem;
+    color: var(--text-ref-color);
+}
+
+.read-comment-btns {
+    display: flex;
+    gap: 20px;
+}
+
+.read-comment-btns p:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.read-comment-content {
+    max-height: var(--freeBoard-comment-content-max-height);
+    text-align: left;
+}
+
+.read-comment-reply > textarea {
+    height: var(--freeBoard-comment-reply-height);
+    margin: 10px 0;
+}
+
+.read-comment-update {
+    height: var(--freeBoard-comment-update-height);
+    margin: 10px 0;
+}
+
+#read-comment-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#read-comment-write {
+    width: 100%;
+}
+
+#read-comment-write > textarea {
+    height: var(--freeBoard-comment-write-height);
+    margin: 10px 0;
+}

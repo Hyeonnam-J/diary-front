@@ -1,0 +1,30 @@
+@import '../../common/variables.css';
+
+#update-frame {
+    width: var(--freeBoard-post-update-width);
+    height: var(--freeBoard-post-update-height);
+}
+
+#update-space {
+    height: 20%;
+}
+
+#update-header {
+    height: 10%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px;
+}
+
+#update-title {
+    height: 5%;
+}
+
+#update-custom {
+    height: 10%;
+}
+
+#update-content {
+    height: 45%;
+}

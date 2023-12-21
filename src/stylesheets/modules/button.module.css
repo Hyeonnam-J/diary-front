@@ -1,0 +1,33 @@
+@import '../common/variables.css';
+
+.primary {
+    color: white;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.primary:hover {
+    background-color: var(--primary-hover-color);
+    border: 1px solid var(--primary-hover-color);
+}
+
+.primaryOutline {
+    color: var(--primary-color);
+    background-color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.primaryOutline:hover {
+    text-decoration: underline;
+}
+
+.inactive {
+    color: white;
+    background-color: var(--inactive-color);
+    border: 1px solid var(--inactive-color);
+}
+
+.inactive:hover {
+    background-color: var(--inactive-hover-color);
+    border: 1px solid var(--inactive-hover-color);
+}

@@ -1,0 +1,32 @@
+@import '../../common/variables.css';
+
+#write-frame {
+    width: var(--freeBoard-post-write-width);
+    height: var(--freeBoard-post-write-height);
+}
+
+/* #write-space {
+    height: 20%;
+} */
+
+#write-header {
+    height: 10%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px;
+}
+
+#write-title {
+    height: 5%;
+    font-size: var(--input-size-text);
+}
+
+/* #write-custom {
+    height: 10%;
+} */
+
+#write-content {
+    height: 60%;
+    margin: 20px 0;
+}

@@ -1,0 +1,74 @@
+@import '../../common/variables.css';
+
+#signInFrame,
+#signInFrame * {
+    display: flex;
+    flex: 1;
+
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 10px;
+    font-size: 1.5rem;
+}
+
+#signInFrame {
+    width: var(--signIn-frame-width);
+    height: var(--signIn-frame-height);
+
+    border: 1px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+#signInFrame-inputs {}
+
+#signInFrame-inputs input{
+    border: 1px solid var(--primary-color);
+}
+
+#signInFrame-inputs * {
+    text-align: left;
+}
+
+#signInFrame-btns {
+    gap: 5px;
+}
+
+#signInFrame-btns > * {
+    width: 100%;
+}
+
+#signInFrame-btns > * {
+    align-items: center;
+}
+
+#signInFrame-sub {
+    flex-direction: row;
+    padding: 0;
+}
+
+#signInFrame-sub p{
+    font-size: 1rem;
+}
+
+#staySignIn-label {
+    flex-direction: row;
+}
+
+#staySignIn-label > input {
+    flex: 1;
+}
+
+#staySignIn-label > p {
+    flex: 10;
+    align-items: start;
+}
+
+#findPassword {
+    align-items: end;
+}
+
+#findPassword:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}

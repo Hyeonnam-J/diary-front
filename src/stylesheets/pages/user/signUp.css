@@ -1,0 +1,73 @@
+@import '../../common/variables.css';
+
+#signUpFrame,
+#signUpFrame * {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 10px;
+}
+
+#signUpFrame {
+    position: relative;
+    width: var(--signUp-frame-width);
+    /* 스크롤이 생기는 높이라 미리 정하지 않고 유동적으로 두게 되면
+  부모 요소의 높이가 따라잡지 못해 레이아웃이 깨진다.
+  화면 전체를 덮는 컨테이너야 overflow: auto로 조정이 가능하지만
+  화면의 일부분을 차지하는 레이아웃에 저 스타일을 쓰면 화면 중간에 또 스크롤이 생긴다.
+  따라서 미리 계산된 픽셀 값을 입력시키는 게 지금으로썬 최선. */
+    height: var(--signUp-frame-height);
+
+    border: 0;
+    gap: 10px;
+}
+
+#submitList {
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+#submitList>label {
+    gap: 3px;
+    flex: 1;
+}
+
+#submitList>label * {
+    text-align: left;
+}
+
+#submitList>label span {
+    font-size: 0.8rem;
+}
+
+#terms, #submit-btn {
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+}
+
+#submitList .valid > span {
+    color: green;
+}
+
+#submitList .invalid > span {
+    color: red;
+}
+
+#submitList label > div {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.duplicateButton{
+    color: var(--primary-color);
+    font-size: 0.8rem;
+}
+
+.duplicateButton:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

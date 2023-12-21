@@ -1,0 +1,65 @@
+@import '../../common/variables.css';
+
+#boardFrame {
+    width: var(--freeBoard-frame-width);
+    height: var(--freeBoard-frame-height);
+}
+
+#boardHeader {
+    height: var(--freeBoard-header-height);
+}
+
+#boardHeader-top {
+    height: 70%;
+}
+
+#boardHeader-bottom {
+    height: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+#boardSection {
+    display: flex;
+    justify-content: center;
+}
+
+#boardSection > table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#boardSection > table *{
+    padding: 10px;
+}
+
+#boardSection > table > thead {
+    background-color: var(--thead-color);
+    height: 50px;
+    font-size: 1.1rem;
+}
+
+#boardSection > table > tbody{
+    font-size: 1.1rem;
+}
+
+.title {
+    text-align: left;
+}
+
+.title:hover, .nick:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#boardFooter {
+    display: flex;
+    justify-content: center;
+
+    height: var(--freeBoard-footer-height);
+}
+
+#boardFooter > .pagination {
+    height: 50%;
+}

@@ -1,0 +1,87 @@
+@import 'variables.css';
+
+* {
+    margin: 0;
+    padding: 0;
+
+    text-align: center;
+    color: black;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+li:hover {
+    text-decoration: underline;
+}
+
+button {
+    width: var(--btn-width);
+    height: var(--btn-height);
+    box-sizing: border-box;
+    font-size: var(--btn-fontSize);
+    cursor: pointer;
+}
+
+input,
+textarea {
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: left;
+    width: 100%;
+}
+
+input, textarea:focus {
+    outline-color: var(--primary-color);
+}
+
+textarea {
+    resize: none;
+    font-size: var(--input-size-text);
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    font-size: 1.2rem;
+    margin: 30px 0;
+}
+
+.pagination li {
+    width: var(--pagination-a-height);
+    height: var(--pagination-a-height);
+}
+
+.pagination a {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.pagination li:hover {
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid var(--pagination-border-color);
+}
+
+.pageActive {
+    border: 1px solid var(--pagination-border-color);
+}
+
+.separator {
+    content: "";
+    display: block;
+    box-shadow: 0 0 0 0.03rem var(--seperator-color);
+    margin: 30px 0;
+    overflow: hidden;   /* overflow를 줘야 위, 아래 동시 적용 */
+}
+
+.textContent {
+    white-space: pre-line;
+}

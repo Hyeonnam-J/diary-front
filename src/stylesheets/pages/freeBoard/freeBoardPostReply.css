@@ -1,0 +1,31 @@
+@import '../../common/variables.css';
+
+#reply-frame {
+    width: var(--freeBoard-post-reply-width);
+    height: var(--freeBoard-post-reply-height);
+}
+
+/* #reply-space {
+    height: 20%;
+} */
+
+#reply-header {
+    height: 10%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px;
+}
+
+#reply-title {
+    height: 5%;
+}
+
+/* #reply-custom {
+    height: 10%;
+} */
+
+#reply-content {
+    height: 60%;
+    margin: 20px 0;
+}

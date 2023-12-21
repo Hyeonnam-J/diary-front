@@ -1,0 +1,63 @@
+@import '../common/variables.css';
+
+#my{
+  width: var(--fixed-button-height);
+  height: var(--fixed-button-height);
+
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+
+  border-radius: 50%;
+}
+
+#my-container{
+  /* 공간을 지정해야 hover 가능 */
+  width: 100%;
+  height: 100%;
+
+  /* 이미지 세로 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /* dropdown-content */
+  position: relative;
+}
+
+#my-container:hover{
+  cursor: pointer;
+}
+
+#my-container > img{
+  /* 이미지 가로 중앙 정렬 */
+  width: 50%;
+  margin: 0 auto;
+}
+
+#my-contents-box{
+  position: absolute;
+  top: 120%;
+  right: 0;
+
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+
+  width: var(--my-contents-box-width);
+  height: var(--my-contents-box-height);
+
+  /* 컨텐츠 세로 중앙 정렬 */
+  /* 클릭 또는 오버 시 display: flex로 */
+  display: none; 
+  flex-direction: column;
+  justify-content: center;
+}
+
+.my-contents{
+  /* 컨텐츠 가로 중앙 정렬 */
+  width: 50%;
+  margin: 0 auto;
+}
+
+.my-contents li{
+  margin: 20px 0;
+}
