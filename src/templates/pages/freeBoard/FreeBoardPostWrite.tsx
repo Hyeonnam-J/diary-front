@@ -13,8 +13,14 @@ const FreeBoardPostWrite = () => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
 
     useEffect(() => {
-        setUserId(localStorage.getItem('userId'));
-        setAccessToken(localStorage.getItem('accessToken'));
+        const isStay = localStorage.getItem('isStay');
+        if(isStay === "true"){
+            setUserId(localStorage.getItem('userId'));
+            setAccessToken(localStorage.getItem('accessToken'));
+        }else{
+            setUserId(sessionStorage.getItem('userId'));
+            setAccessToken(sessionStorage.getItem('accessToken'));
+        }
     }, []);
 
     const write = () => {
