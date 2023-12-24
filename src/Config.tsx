@@ -1,4 +1,4 @@
-export const SERVER_IP = 'https://diay-api.com';
+export const SERVER_IP = 'https://diary-api.com';
 
 export const Page = {
   perPageSize: 10,
