@@ -97,6 +97,11 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const replyPost = async (post: FreeBoardPostDetail | null) => {
+        if(!userId) {
+            alert('Please sign in');
+            return;
+        }
+
         const isAuth = await user(userId || '', accessToken || '');
         if (isAuth) {
             if (post) navigate('/freeBoard/post/reply', { state: { postId: post.id } });
@@ -130,7 +135,7 @@ const FreeBoardPostDetailRead = () => {
 
     const writeComment = () => {
         if(!userId){
-            alert('please sign in');
+            alert('Please sign in');
             return;
         }
 
@@ -160,7 +165,7 @@ const FreeBoardPostDetailRead = () => {
 
     const replyComment = (commentId: string) => {
         if(!userId){
-            alert('please sign in');
+            alert('Please sign in');
             return;
         }
 
