@@ -4,7 +4,6 @@ import DefaultLayout from './layouts/DefaultLayout';
 const Home: React.FC<LayoutRouteProps> = (props) => {
     return (
         <DefaultLayout>
-            a
             {props.children}
         </DefaultLayout>
     );
