@@ -84,7 +84,7 @@ const FreeBoard = () => {
             alert('Please sign in');
             return;
         }
-
+        
         const isAuth = await user(userId || '', accessToken || '');
         if(isAuth) navigate('/freeBoard/post/write');
         else navigate('/signIn');

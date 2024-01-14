@@ -7,6 +7,16 @@ import my from '../../assets/imgs/my.png'
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
 
+function parseJwt (token: string) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
 const My: React.FC = () => {
     const navigate = useNavigate();
 
@@ -24,16 +34,17 @@ const My: React.FC = () => {
         let email;
         let nick;
 
-        const isStay = localStorage.getItem('isStay');
+        const cookie = document.cookie;
 
-        if(isStay === "true"){
-            email = localStorage.getItem('email');
-            nick = localStorage.getItem('nick');
-        }else{
-            email = sessionStorage.getItem('email');
-            nick = sessionStorage.getItem('nick');
+        if(cookie != ''){
+            const accessTokenStartIndex = cookie.indexOf('accessToken=') + "accessToken=".length;
+            const accessToken = cookie.substring(accessTokenStartIndex);
+
+            const decodedAccessToken = parseJwt(accessToken);
+            email = decodedAccessToken.email;
+            nick = decodedAccessToken.nick;
         }
-        
+
         setSignedIn(!!email);
         setEmail(email || '');
         setNick(nick || '');
@@ -46,11 +57,14 @@ const My: React.FC = () => {
     const signOut = () => {
         const isStay = localStorage.getItem('isStay');
 
-        if(isStay === "true") localStorage.clear();
-        else sessionStorage.clear(); 
-
         setSignedIn(!isSignedIn);
         setDropdownVisible(!isDropdownVisible);
+
+        if(isStay === 'false'){
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() - 7);
+            document.cookie = `accessToken=deleted; expires=` + expirationDate.toUTCString() + '; path=/';
+        }
 
         navigate('/');
     }

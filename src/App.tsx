@@ -6,7 +6,12 @@ function App() {
 
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            
+            const isStay = localStorage.getItem('isStay');
+            if(isStay === 'false'){
+                const expirationDate = new Date();
+                expirationDate.setDate(expirationDate.getDate() - 7);
+                document.cookie = `accessToken=deleted; expires=` + expirationDate.toUTCString() + '; path=/';
+            }
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
