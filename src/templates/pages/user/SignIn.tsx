@@ -5,16 +5,6 @@ import '../../../stylesheets/pages/user/signIn.css';
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
 
-function parseJwt (token: string) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-}
-
 const SignIn = () => {
     const navigate = useNavigate();
 
@@ -40,24 +30,15 @@ const SignIn = () => {
             if(response.ok){
                 let accessToken = response.headers.get('Authorization');
                 accessToken = accessToken || '';
-                const decodedAccessToken = parseJwt(accessToken);
 
                 const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
                 const isStay = isStayInput.checked.toString();
                 localStorage.setItem('isStay', isStay);
-                
-                if(isStay === "true"){
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('userId', decodedAccessToken.userId);
-                    localStorage.setItem('email', decodedAccessToken.email);
-                    localStorage.setItem('nick', decodedAccessToken.nick);
-                }else{
-                    sessionStorage.setItem('accessToken', accessToken);
-                    sessionStorage.setItem('userId', decodedAccessToken.userId);
-                    sessionStorage.setItem('email', decodedAccessToken.email);
-                    sessionStorage.setItem('nick', decodedAccessToken.nick);
-                }
-                
+
+                const expirationDate = new Date();
+                expirationDate.setDate(expirationDate.getDate() + 7);
+                document.cookie = `accessToken=${accessToken}; expires=` + expirationDate.toUTCString() + '; path=/';
+
                 navigate('/');
             }
         })
