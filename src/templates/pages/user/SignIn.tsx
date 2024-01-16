@@ -20,24 +20,16 @@ const SignIn = () => {
         const response = fetch(SERVER_IP+'/signIn', {
             headers: {
                 "Content-Type": 'application/json',
-//                 "credentials": 'include',
             },
             method: 'POST',
-//             credentials: 'include',
+            credentials: 'include',
             body: JSON.stringify(data),
         })
         .then(response => {
             if(response.ok){
-                let accessToken = response.headers.get('Authorization');
-                accessToken = accessToken || '';
-
                 const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
                 const isStay = isStayInput.checked.toString();
                 localStorage.setItem('isStay', isStay);
-
-                const expirationDate = new Date();
-                expirationDate.setDate(expirationDate.getDate() + 7);
-                document.cookie = `accessToken=${accessToken}; expires=` + expirationDate.toUTCString() + '; path=/';
 
                 navigate('/');
             }
