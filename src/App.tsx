@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import routes, { RouteConfig } from './templates/RouteConfig';
+import { deleteCookie, getCookie } from './auth/cookie';
 
 function App() {
 
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             const isStay = localStorage.getItem('isStay');
-            if(isStay === 'false'){
-                const expirationDate = new Date();
-                expirationDate.setDate(expirationDate.getDate() - 7);
-                document.cookie = `accessToken=deleted; expires=` + expirationDate.toUTCString() + '; path=/';
-            }
+            if(isStay === 'false') if(getCookie()) deleteCookie();
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
