@@ -7,6 +7,7 @@ import my from '../../assets/imgs/my.png'
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
 import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
+import { SERVER_IP } from '../../Config';
 
 const My: React.FC = () => {
     const navigate = useNavigate();
@@ -31,8 +32,23 @@ const My: React.FC = () => {
             setEmail(email || '');
             setNick(nick || '');    
         }
+        test();
     }, []);
 
+
+    
+    const test = () => {
+        const response = fetch(SERVER_IP+"/test", {
+            method: 'GET',
+        })
+        .then(response => response.text())
+        .then(body => {
+            console.log("body ="+body);
+        })
+    }
+
+
+    
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
     };

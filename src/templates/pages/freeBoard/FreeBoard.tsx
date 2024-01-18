@@ -51,20 +51,7 @@ const FreeBoard = () => {
 
     useEffect(() => {
         getPosts(`/freeBoard/posts?page=${curPage}&sort=${sort}`);
-        test();
     }, [curPage, sort]);
-
-    
-    const test = () => {
-        const response = fetch(SERVER_IP+"/test", {
-            method: 'GET',
-        })
-        .then(response => response.text())
-        .then(body => {
-            console.log("body ="+body);
-        })
-    }
-
 
     const getTotalPostsCount = () => {
         const response = fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
