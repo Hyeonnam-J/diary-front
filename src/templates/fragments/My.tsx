@@ -38,6 +38,7 @@ const My: React.FC = () => {
 
     
     const test = () => {
+        console.log("url ->"+SERVER_IP+"/test");
         const response = fetch(SERVER_IP+"/test", {
             method: 'GET',
         })
