@@ -6,6 +6,8 @@ import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostReply = () => {
+    const once = true;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -22,7 +24,7 @@ const FreeBoardPostReply = () => {
             setUserId(sessionStorage.getItem('userId'));
             setAccessToken(sessionStorage.getItem('accessToken'));
         }
-    }, []);
+    }, [once]);
 
     const reply = () => {
         const title = document.querySelector('input[name="reply-title"]') as HTMLInputElement;

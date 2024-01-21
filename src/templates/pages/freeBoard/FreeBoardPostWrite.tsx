@@ -6,6 +6,7 @@ import '../../../stylesheets/pages/freeBoard/freeBoardPostWrite.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostWrite = () => {
+    const once = true;
     const navigate = useNavigate();
 
     const [userId, setUserId] = useState<string | null>(null);
@@ -20,7 +21,7 @@ const FreeBoardPostWrite = () => {
             setUserId(sessionStorage.getItem('userId'));
             setAccessToken(sessionStorage.getItem('accessToken'));
         }
-    }, []);
+    }, [once]);
 
     const write = () => {
         const title = document.querySelector('input[name="write-title"]') as HTMLInputElement;

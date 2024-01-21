@@ -12,6 +12,7 @@ import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoard.css';
 
 const FreeBoard = () => {
+    const once = true;
     const navigate = useNavigate();
 
     const [userId, setUserId] = useState<string | null>(null);
@@ -37,7 +38,7 @@ const FreeBoard = () => {
         }
 
         getTotalPostsCount();
-    }, []);
+    }, [once]);
 
     /* 비동기 때문에 나눠야 한다. */
     useEffect(() => {

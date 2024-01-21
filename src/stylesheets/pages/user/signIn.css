@@ -65,7 +65,7 @@
 }
 
 #findPassword {
-    align-items: end;
+    align-items: flex-end;
 }
 
 #findPassword:hover{

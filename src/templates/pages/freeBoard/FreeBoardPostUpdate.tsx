@@ -7,6 +7,8 @@ import { FreeBoardPostDetail } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostUpdate = () => {
+    const once = true;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -23,7 +25,7 @@ const FreeBoardPostUpdate = () => {
             setUserId(sessionStorage.getItem('userId'));
             setAccessToken(sessionStorage.getItem('accessToken'));
         }
-    }, []);
+    }, [once]);
 
     const update = () => {
         const title = document.querySelector('input[name="update-title"]') as HTMLInputElement;

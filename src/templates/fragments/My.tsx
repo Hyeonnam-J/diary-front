@@ -9,6 +9,7 @@ import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
 
 const My: React.FC = () => {
+    const once = true;
     const navigate = useNavigate();
 
     // React Hook인 useState를 사용하여 새로운 상태 변수를 생성
@@ -32,7 +33,7 @@ const My: React.FC = () => {
             setNick(nick || '');    
         }
         test();
-    }, []);
+    }, [once]);
 
 
     

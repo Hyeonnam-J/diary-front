@@ -10,6 +10,8 @@ import { FreeBoardComment, FreeBoardPostDetail } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostDetailRead = () => {
+    const once = true;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -40,7 +42,7 @@ const FreeBoardPostDetailRead = () => {
         }
 
         getTotalCommentsCount();
-    }, []);
+    }, [once]);
 
     useEffect(() => {
         setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
@@ -56,7 +58,7 @@ const FreeBoardPostDetailRead = () => {
 
     useEffect(() => {
         getPost(postId);
-    }, []);
+    }, [once]);
 
     const getTotalCommentsCount = () => {
         fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {

@@ -32,6 +32,7 @@ const menuClickHandler = (uri: string, userId: string | null, accessToken: strin
 }
 
 const Layout: React.FC<LayoutProps> = (props) => {
+    const once = true;
     const [isNavOpen, setNavOpen] = useState(false);
 
     // 초깃값 null. 타입은 string.
@@ -44,7 +45,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
     useEffect(() => {
         setUserId(localStorage.getItem('userId'));
         setAccessToken(localStorage.getItem('accessToken'));
-    }, []);
+    }, [once]);
 
     const receiveNavClick = () => {
         setNavOpen(prevState => !prevState);
