@@ -12,40 +12,8 @@ interface LayoutProps {
     children: ReactNode;
 }
 
-const menuClickHandler = (uri: string, userId: string | null, accessToken: string | null) => {
-    fetch(SERVER_IP+uri, {
-        headers: {
-            "Content-Type": "application/json",
-            "userId": `${userId}`,
-            'Authorization': `${accessToken}`,
-        },
-        method: 'POST',
-//         body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        console.log(error);
-    })
-}
-
 const Layout: React.FC<LayoutProps> = (props) => {
-    const once = true;
     const [isNavOpen, setNavOpen] = useState(false);
-
-    // 초깃값 null. 타입은 string.
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-
-    // 비동기 데이터처리 따위에 쓰임.
-    // 두 번째 파라미터는 의존성 배열로 그 배열의 값이 변경될 때 useEffect가 실행.
-    // 지금은 빈 배열을 전달하여 한 번만 실행되도록 설정.
-    useEffect(() => {
-        setUserId(localStorage.getItem('userId'));
-        setAccessToken(localStorage.getItem('accessToken'));
-    }, [once]);
 
     const receiveNavClick = () => {
         setNavOpen(prevState => !prevState);

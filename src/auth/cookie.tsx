@@ -10,10 +10,9 @@ export const getAccessToken = (cookie: string) => {
 
 export const parseAccessToken = (accessToken: string) => {
     const decodedAccessToken = parseJwt(accessToken);
-    const email = decodedAccessToken.email;
     const nick = decodedAccessToken.nick;
 
-    return { email, nick };
+    return { nick };
 }
 
 export const deleteCookie = () => {

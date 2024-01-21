@@ -25,9 +25,9 @@ const My: React.FC = () => {
         const cookie = getCookie();
         if(cookie){
             const accessToken = getAccessToken(cookie);
-            const { email, nick } = parseAccessToken(accessToken);
+            const { nick } = parseAccessToken(accessToken);
 
-            setSignedIn(!!email);
+            setSignedIn(!!nick);
             setNick(nick || '');    
         }
         test();
