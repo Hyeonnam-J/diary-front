@@ -31,6 +31,19 @@ const FreeBoardPostDetailRead = () => {
     const [replyingStates, setReplyingStates] = useState<Record<string, boolean>>({});
     const [updatingStates, setUpdatingStates] = useState<Record<string, boolean>>({});
 
+    const getTotalCommentsCount = async () => {
+        fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(body => {
+            setTotalCommentsCount(body.data);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             const cookie = getCookie();
@@ -65,19 +78,6 @@ const FreeBoardPostDetailRead = () => {
     useEffect(() => {
         getPost(postId);
     }, [postId]);
-
-    const getTotalCommentsCount = async () => {
-        fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
-            method: 'GET',
-        })
-        .then(response => response.json())
-        .then(body => {
-            setTotalCommentsCount(body.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    }
 
     const getComments = (uri: string) => {
         fetch(SERVER_IP + uri, {
