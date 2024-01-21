@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostWrite.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -13,14 +14,18 @@ const FreeBoardPostWrite = () => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
 
     useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
-        }
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if (cookie) {
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+    
+                setAccessToken(accessToken);
+                setUserId(userId);
+            }
+        };
+    
+        fetchData();
     }, [once]);
 
     const write = () => {

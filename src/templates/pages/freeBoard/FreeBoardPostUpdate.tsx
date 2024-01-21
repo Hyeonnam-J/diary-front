@@ -5,6 +5,7 @@ import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostUpdate.css';
 import { FreeBoardPostDetail } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoardPostUpdate = () => {
     const once = true;
@@ -13,18 +14,22 @@ const FreeBoardPostUpdate = () => {
     const location = useLocation();
 
     const post: FreeBoardPostDetail = location?.state?.post;
-    const [userId, setUserId] = useState<string | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setAccessToken(accessToken);
+                setUserId(userId);
+            }
         }
+
+        fetchData();
     }, [once]);
 
     const update = () => {
@@ -41,6 +46,7 @@ const FreeBoardPostUpdate = () => {
             headers: {
                 "Content-Type": 'application/json',
                 "Authorization": accessToken || '',
+                "userId": userId || ''
             },
             method: 'PUT',
             body: JSON.stringify(data),

@@ -30,6 +30,7 @@ const My: React.FC = () => {
             setSignedIn(!!nick);
             setNick(nick || '');    
         }
+
         test();
     }, [once]);
 

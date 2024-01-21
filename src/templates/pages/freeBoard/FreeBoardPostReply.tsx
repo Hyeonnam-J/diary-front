@@ -4,6 +4,7 @@ import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoardPostReply = () => {
     const once = true;
@@ -16,14 +17,18 @@ const FreeBoardPostReply = () => {
     const postId = location?.state?.postId;
 
     useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setAccessToken(accessToken);
+                setUserId(userId);
+            }
         }
+
+        fetchData();
     }, [once]);
 
     const reply = () => {

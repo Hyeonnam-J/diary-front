@@ -10,6 +10,7 @@ import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard";
 
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoard.css';
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoard = () => {
     const once = true;
@@ -26,15 +27,18 @@ const FreeBoard = () => {
     const [curPage, setCurPage] = useState(0);
 
     useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setAccessToken(accessToken);
+                setUserId(userId);
+            }
         }
 
+        fetchData();
         getTotalPostsCount();
     }, [once]);
 

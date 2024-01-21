@@ -8,6 +8,7 @@ import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
 import { FreeBoardComment, FreeBoardPostDetail } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoardPostDetailRead = () => {
     const once = true;
@@ -31,15 +32,18 @@ const FreeBoardPostDetailRead = () => {
     const [updatingStates, setUpdatingStates] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setAccessToken(accessToken);
+                setUserId(userId);
+            }
         }
 
+        fetchData();
         getTotalCommentsCount();
     }, [once]);
 
@@ -106,13 +110,13 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const updatePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || -1) === post?.user.id) {
+        if ((parseInt(userId || '-1', 10) || -1) === post?.user.id) {
             navigate('/freeBoard/post/update', { state: { post: post } });
         } else alert('You are not writer');
     }
 
     const deletePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || -1) === post?.user.id) {
+        if ((parseInt(userId || '-1', 10) || -1) === post?.user.id) {
             fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
                 headers: {
                     "Authorization": accessToken || '',
@@ -289,7 +293,7 @@ const FreeBoardPostDetailRead = () => {
                 
                 <div id='read-comment'>
                     {comments.map((comment) => {
-                        const isCurrentUserComment = comment.user.id.toString() === userId;
+                        const isCurrentUserComment = comment.user.id.toString() === String(userId);;
                         const isReplyingToComment = replyingStates[comment.id] || false;
                         const isUpdatingComment = updatingStates[comment.id] || false;
 
