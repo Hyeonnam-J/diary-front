@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Page, SERVER_IP } from "../../../Config";
@@ -31,18 +31,22 @@ const FreeBoardPostDetailRead = () => {
     const [replyingStates, setReplyingStates] = useState<Record<string, boolean>>({});
     const [updatingStates, setUpdatingStates] = useState<Record<string, boolean>>({});
 
-    const getTotalCommentsCount = async () => {
-        fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
-            method: 'GET',
-        })
-        .then(response => response.json())
-        .then(body => {
+    const getTotalCommentsCount = useCallback(async () => {
+        try {
+            const response = await fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
+                method: 'GET',
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch total comments count');
+            }
+    
+            const body = await response.json();
             setTotalCommentsCount(body.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    }
+        } catch (error) {
+            console.error(error);
+        }
+    }, [postId, setTotalCommentsCount]);
 
     useEffect(() => {
         const fetchData = async () => {
