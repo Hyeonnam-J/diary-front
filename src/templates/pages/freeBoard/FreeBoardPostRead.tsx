@@ -65,7 +65,7 @@ const FreeBoardPostDetailRead = () => {
         };
     
         fetchData();
-    }, [postId]);
+    }, [postId, getTotalCommentsCount]);
 
     useEffect(() => {
         setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
