@@ -1,4 +1,4 @@
-import { SERVER_IP } from "../Config"
+import { SERVER_IP } from "../Config";
 
 export const user = async (userId : string, accessToken : string) => {
     let auth = false;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import menu from '../../assets/imgs/menu.png'
-import exit from '../../assets/imgs/exit.png'
+import exit from '../../assets/imgs/exit.png';
+import menu from '../../assets/imgs/menu.png';
 
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/nav.css';

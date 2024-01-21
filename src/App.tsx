@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import routes, { RouteConfig } from './templates/RouteConfig';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { deleteCookie, getCookie } from './auth/cookie';
+import routes, { RouteConfig } from './templates/RouteConfig';
 
 function App() {
 

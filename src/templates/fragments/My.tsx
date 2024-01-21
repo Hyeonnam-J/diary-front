@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import my from '../../assets/imgs/my.png'
+import my from '../../assets/imgs/my.png';
 
+import { SERVER_IP } from '../../Config';
+import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
-import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
-import { SERVER_IP } from '../../Config';
 
 const My: React.FC = () => {
     const navigate = useNavigate();

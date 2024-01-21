@@ -1,10 +1,9 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SignLayout from "../../layouts/SignLayout";
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/user/signUp.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
+import '../../../stylesheets/pages/user/signUp.css';
+import SignLayout from "../../layouts/SignLayout";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -161,7 +160,7 @@ const SignUp = () => {
             const nickInput = document.querySelector('input[name="nick"]') as HTMLInputElement;
             const phoneNumberInput = document.querySelector('input[name="phoneNumber"]') as HTMLInputElement;
 
-            if(passwordInput.value != passwordConfirmInput.value){
+            if(passwordInput.value !== passwordConfirmInput.value){
                 alert('check your password confirm');
                 return;
             }

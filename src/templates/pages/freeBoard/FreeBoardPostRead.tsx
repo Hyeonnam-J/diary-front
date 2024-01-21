@@ -1,13 +1,13 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import DefaultLayout from "../../layouts/DefaultLayout";
-import { SERVER_IP, Page } from "../../../Config";
-import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
-import Button from "../../../stylesheets/modules/button.module.css";
-import { Navigate, useNavigate, useLocation } from 'react-router-dom';
-import { FreeBoardPostDetail, FreeBoardComment } from "../../../type/FreeBoard"
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Page, SERVER_IP } from "../../../Config";
 import { user } from "../../../auth/auth";
+import Button from "../../../stylesheets/modules/button.module.css";
+import Layout from "../../../stylesheets/modules/layout.module.css";
+import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
+import { FreeBoardComment, FreeBoardPostDetail } from "../../../type/FreeBoard";
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostDetailRead = () => {
     const navigate = useNavigate();

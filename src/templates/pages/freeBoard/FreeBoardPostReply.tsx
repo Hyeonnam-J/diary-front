@@ -1,10 +1,9 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import DefaultLayout from "../../layouts/DefaultLayout";
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
-import { Navigate, useNavigate, useLocation } from 'react-router-dom';
+import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostReply = () => {
     const navigate = useNavigate();
