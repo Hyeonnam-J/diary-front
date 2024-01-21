@@ -33,7 +33,7 @@ const SignUp = () => {
             case "password":
                 if (!/^\S+$/.test(password)) {
                     return "Password cannot contain spaces";
-                } else if (/[^\x00-\x7F]/.test(password)) {
+                } else if (/[^ -~]/.test(password)) {
                     return "Password can contain only ASCII characters";
                 } else if (!/[A-Z]/.test(password)) {
                     return "Password must contain at least one uppercase letter";
