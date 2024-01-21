@@ -22,10 +22,8 @@ const FreeBoard = () => {
 
     const [totalPostsCount, setTotalPostsCount] = useState(0);
     const [totalPageCount, setTotalPageCount] = useState(0);
-    const [totalBlockCount, setTotalBlockCount] = useState(0);
 
     const [curPage, setCurPage] = useState(0);
-    const [sort, setSort] = useState(FreeBoardSort.BASIC);
 
     useEffect(() => {
         const isStay = localStorage.getItem('isStay');
@@ -46,13 +44,9 @@ const FreeBoard = () => {
     }, [totalPostsCount]);
 
     useEffect(() => {
-        setTotalBlockCount(Math.ceil(totalPageCount / Page.perBlockSize));
-    }, [totalPageCount]);
-    /* 비동기 때문에 나눠야 한다. */
-
-    useEffect(() => {
+        const sort = FreeBoardSort.BASIC;
         getPosts(`/freeBoard/posts?page=${curPage}&sort=${sort}`);
-    }, [curPage, sort]);
+    }, [curPage]);
 
     const getTotalPostsCount = () => {
         fetch(SERVER_IP+"/freeBoard/posts/totalCount", {

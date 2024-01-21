@@ -1,7 +1,6 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { SERVER_IP } from "../../Config";
 import My from "../fragments/My";
 import Nav from "../fragments/Nav";
 
