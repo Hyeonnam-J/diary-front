@@ -19,7 +19,6 @@ const My: React.FC = () => {
     // 해당 값에 의존하는 JSX 코드를 다시 실행하고 화면을 업데이트.
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [isSignedIn, setSignedIn] = useState(false);
-    const [email, setEmail] = useState('');
     const [nick, setNick] = useState('');
 
     useEffect(() => {
@@ -29,7 +28,6 @@ const My: React.FC = () => {
             const { email, nick } = parseAccessToken(accessToken);
 
             setSignedIn(!!email);
-            setEmail(email || '');
             setNick(nick || '');    
         }
         test();

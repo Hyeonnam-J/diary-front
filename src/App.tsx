@@ -4,6 +4,7 @@ import { deleteCookie, getCookie } from './auth/cookie';
 import routes, { RouteConfig } from './templates/RouteConfig';
 
 function App() {
+    const once = true;
 
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -17,7 +18,7 @@ function App() {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, []);
+    }, [once]);
 
     return (
         // URL 변경을 React-Router가 감지.
