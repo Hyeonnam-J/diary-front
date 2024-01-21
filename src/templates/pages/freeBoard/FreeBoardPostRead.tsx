@@ -47,8 +47,12 @@ const FreeBoardPostDetailRead = () => {
     }, [once]);
 
     useEffect(() => {
-        getTotalCommentsCount();
-    }, [totalCommentsCount, postId]);
+        const fetchData = async () => {
+            await getTotalCommentsCount();
+        };
+    
+        fetchData();
+    }, [postId]);
 
     useEffect(() => {
         setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
@@ -62,7 +66,7 @@ const FreeBoardPostDetailRead = () => {
         getPost(postId);
     }, [postId]);
 
-    const getTotalCommentsCount = () => {
+    const getTotalCommentsCount = async () => {
         fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
             method: 'GET',
         })
