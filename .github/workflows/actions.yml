@@ -23,7 +23,7 @@ jobs:
       - name: make a directory
         run: mkdir -p deploy
 
-      - name: copy build files
+      - name: copy build files  #
         run: cp -r build/* ./deploy
 
       - name: make zip file
