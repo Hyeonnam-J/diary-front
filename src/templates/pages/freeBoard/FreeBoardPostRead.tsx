@@ -59,7 +59,7 @@ const FreeBoardPostDetailRead = () => {
     }, []);
 
     const getTotalCommentsCount = () => {
-        const response = fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
+        fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
             method: 'GET',
         })
         .then(response => response.json())
@@ -72,7 +72,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const getComments = (uri: string) => {
-        const response = fetch(SERVER_IP + uri, {
+        fetch(SERVER_IP + uri, {
             method: 'GET',
         })
         .then(response => response.json())

@@ -17,7 +17,7 @@ const SignIn = () => {
             password: passwordInput.value,
         }
 
-        const response = fetch(SERVER_IP+'/signIn', {
+        fetch(SERVER_IP+'/signIn', {
             headers: {
                 "Content-Type": 'application/json',
             },

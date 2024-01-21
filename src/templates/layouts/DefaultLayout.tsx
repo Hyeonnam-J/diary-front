@@ -13,7 +13,7 @@ interface LayoutProps {
 }
 
 const menuClickHandler = (uri: string, userId: string | null, accessToken: string | null) => {
-    const response = fetch(SERVER_IP+uri, {
+    fetch(SERVER_IP+uri, {
         headers: {
             "Content-Type": "application/json",
             "userId": `${userId}`,

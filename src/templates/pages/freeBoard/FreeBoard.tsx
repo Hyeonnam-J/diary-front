@@ -54,7 +54,7 @@ const FreeBoard = () => {
     }, [curPage, sort]);
 
     const getTotalPostsCount = () => {
-        const response = fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
+        fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
             method: 'GET',
         })
         .then(response => response.json())
@@ -67,7 +67,7 @@ const FreeBoard = () => {
     }
 
     const getPosts = (uri: string) => {
-        const response = fetch(SERVER_IP+uri, {
+        fetch(SERVER_IP+uri, {
             method: 'GET',
         })
         .then(response => response.json())

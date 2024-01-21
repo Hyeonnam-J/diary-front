@@ -173,7 +173,7 @@ const SignUp = () => {
                 phoneNumber: phoneNumberInput.value,
             };
 
-            const response = await fetch(SERVER_IP+'/signUp', {
+            await fetch(SERVER_IP+'/signUp', {
             headers: {
                 "Content-Type": 'application/json',
             },
