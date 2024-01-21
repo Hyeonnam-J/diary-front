@@ -3,7 +3,7 @@ import { SERVER_IP } from "../Config";
 export const user = async (userId : string, accessToken : string) => {
     let auth = false;
 
-    const response = await fetch(SERVER_IP+"/user", {
+    await fetch(SERVER_IP+"/user", {
         headers: {
             "userId": `${userId}`,
             'Authorization': `${accessToken}`,
