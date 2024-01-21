@@ -24,7 +24,6 @@ const FreeBoardPostDetailRead = () => {
 
     const [totalCommentsCount, setTotalCommentsCount] = useState(0);
     const [totalPageCount, setTotalPageCount] = useState(0);
-    const [totalBlockCount, setTotalBlockCount] = useState(0);
 
     const [curPage, setCurPage] = useState(0);
 
@@ -47,10 +46,6 @@ const FreeBoardPostDetailRead = () => {
     useEffect(() => {
         setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
     }, [totalCommentsCount]);
-
-    useEffect(() => {
-        setTotalBlockCount(Math.ceil(totalPageCount / Page.perBlockSize));
-    }, [totalPageCount]);
 
     useEffect(() => {
         getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
