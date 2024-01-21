@@ -11,6 +11,8 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoardPostDetailRead = () => {
+    const once = true;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -42,8 +44,11 @@ const FreeBoardPostDetailRead = () => {
         }
 
         fetchData();
+    }, [once]);
+
+    useEffect(() => {
         getTotalCommentsCount();
-    }, [postId]);
+    }, [once]);
 
     useEffect(() => {
         setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
