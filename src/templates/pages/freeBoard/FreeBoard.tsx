@@ -117,7 +117,7 @@ const FreeBoard = () => {
                         </thead>
                         <tbody>
                             {posts.map((post) => {
-                                const prefixTitle = post.depth == 0 ? '' : '└ ';
+                                const prefixTitle = post.depth === 0 ? '' : '└ ';
                                 const paddingLeft = 10 * post.depth;
 
                                 return (

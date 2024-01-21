@@ -11,7 +11,7 @@ export const user = async (userId : string, accessToken : string) => {
         method: 'GET',
     })
     .then(response => {
-        auth = response.status == 200 ? true : false;
+        auth = response.status === 200 ? true : false;
     });
     
     return auth;

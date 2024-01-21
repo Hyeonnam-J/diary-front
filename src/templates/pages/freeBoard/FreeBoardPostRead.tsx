@@ -109,13 +109,13 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const updatePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || -1) == post?.user.id) {
+        if ((userId || -1) === post?.user.id) {
             navigate('/freeBoard/post/update', { state: { post: post } });
         } else alert('You are not writer');
     }
 
     const deletePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || -1) == post?.user.id) {
+        if ((userId || -1) === post?.user.id) {
             fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
                 headers: {
                     "Authorization": accessToken || '',
@@ -123,7 +123,7 @@ const FreeBoardPostDetailRead = () => {
                 method: 'DELETE',
             })
             .then(response => {
-                if(response.status == 403){
+                if(response.status === 403){
                     alert('Replies exist');
                     return;
                 }
@@ -252,7 +252,7 @@ const FreeBoardPostDetailRead = () => {
             method: 'DELETE',
         })
         .then(response => {
-            if(response.status == 403){
+            if(response.status === 403){
                 alert('Replies exist');
                 return;
             }

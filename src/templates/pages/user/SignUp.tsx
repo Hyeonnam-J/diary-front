@@ -183,7 +183,7 @@ const SignUp = () => {
             })
             .then(response => {
                 if(response.ok) {
-                    if(response.status == 208) {
+                    if(response.status === 208) {
                         alert('duplicated email or nick. Please check your email and nick');
                         return;
                     }
@@ -228,7 +228,7 @@ const SignUp = () => {
         })
         .then(response => {
             if(response.ok) {
-                if(response.status == 208) {
+                if(response.status === 208) {
                     alert('Existing value');
 
                     setDuplicateValidations({
@@ -237,7 +237,7 @@ const SignUp = () => {
                     })
 
                     return;
-                }else if(response.status == 200) {
+                }else if(response.status === 200) {
                     alert('Valid value');
 
                     setDuplicateValidations({
