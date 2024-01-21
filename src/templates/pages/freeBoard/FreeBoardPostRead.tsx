@@ -31,22 +31,36 @@ const FreeBoardPostDetailRead = () => {
     const [replyingStates, setReplyingStates] = useState<Record<string, boolean>>({});
     const [updatingStates, setUpdatingStates] = useState<Record<string, boolean>>({});
 
-    const getTotalCommentsCount = useCallback(async () => {
-        try {
-            const response = await fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
-                method: 'GET',
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to fetch total comments count');
-            }
-    
-            const body = await response.json();
+    const getTotalCommentsCount = useCallback(() => {
+        fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(body => {
             setTotalCommentsCount(body.data);
-        } catch (error) {
-            console.error(error);
-        }
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }, [postId, setTotalCommentsCount]);
+
+    // // ESLint 오류 때문에 콜백으로 감쌈.
+    // const getTotalCommentsCount = useCallback(async () => {
+    //     try {
+    //         const response = await fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
+    //             method: 'GET',
+    //         });
+    
+    //         if (!response.ok) {
+    //             throw new Error('Failed to fetch total comments count');
+    //         }
+    
+    //         const body = await response.json();
+    //         setTotalCommentsCount(body.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }, [postId, setTotalCommentsCount]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,12 +78,13 @@ const FreeBoardPostDetailRead = () => {
     }, [once]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            await getTotalCommentsCount();
-        };
+        getTotalCommentsCount();
+        // const fetchData = async () => {
+        //     await getTotalCommentsCount();
+        // };
     
-        fetchData();
-    }, [postId, getTotalCommentsCount]);
+        // fetchData();
+    }, [postId, getTotalCommentsCount]);    // ESLint 경고 때문에 의미 없이 함수를 의존성 배열에 넣음.
 
     useEffect(() => {
         setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
