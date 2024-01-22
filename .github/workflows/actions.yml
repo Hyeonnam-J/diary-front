@@ -26,6 +26,9 @@ jobs:
       - name: copy build files  #
         run: cp -r build/* ./deploy
 
+      - name: copy appspec.yml, deploy.sh
+        run: cp -r appspec.yml deploy.sh ./deploy
+
       - name: make zip file
         run: zip -r ./deploy.zip ./deploy
 

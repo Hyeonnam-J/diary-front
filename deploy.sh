@@ -1,12 +1,12 @@
-# #!/bin/bash
+#!/bin/bash
 
-# REPOSITORY=/home/ec2-user/deploy
-# cd $REPOSITORY 
+REPOSITORY=/home/ec2-user/deploy
+cd $REPOSITORY 
 
 # JAR_NAME=$(ls $REPOSITORY | grep '.jar' | tail -n 1) 
 # JAR_PATH=$REPOSITORY/$JAR_NAME
 
-# APP_NAME=diary-api
+# APP_NAME=diary-front
 # CURRENT_PID=$(pgrep -fl diary-api | grep java | awk '{print $1}')
 
 # if [ -z "$CURRENT_PID" ]; then
