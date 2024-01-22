@@ -38,3 +38,12 @@ jobs:
 
       - name: upload to S3
         run: aws s3 cp --region ap-northeast-2 ./deploy.zip s3://diary-front/deploy.zip
+
+      - name: deploy
+        run: |
+          aws deploy create-deployment \
+          --application-name diary-front-codedeploy \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --deployment-group-name diary-front-codedeploy-deploygroup \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=diary-front,bundleType=zip,key=deploy.zip \
