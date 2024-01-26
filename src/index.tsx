@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    <div>안녕3</div>
+    <div>안녕4</div>
     <App />
   </BrowserRouter>
 );
