@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import my from '../../assets/imgs/my.png'
+import my from '../../assets/imgs/my.png';
 
+import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
-import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
 
 const My: React.FC = () => {
+    const once = true;
     const navigate = useNavigate();
 
     // React Hook인 useState를 사용하여 새로운 상태 변수를 생성
@@ -18,21 +18,20 @@ const My: React.FC = () => {
     // 해당 값에 의존하는 JSX 코드를 다시 실행하고 화면을 업데이트.
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [isSignedIn, setSignedIn] = useState(false);
-    const [email, setEmail] = useState('');
     const [nick, setNick] = useState('');
 
     useEffect(() => {
         const cookie = getCookie();
+        console.log('my ->'+cookie);
         if(cookie){
             const accessToken = getAccessToken(cookie);
-            const { email, nick } = parseAccessToken(accessToken);
+            const { nick } = parseAccessToken(accessToken);
 
-            setSignedIn(!!email);
-            setEmail(email || '');
+            setSignedIn(!!nick);
             setNick(nick || '');    
         }
-    }, []);
-
+    }, [once]);
+    
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
     };
