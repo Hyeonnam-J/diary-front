@@ -23,6 +23,7 @@ const My: React.FC = () => {
 
     useEffect(() => {
         const cookie = getCookie();
+        console.log('my ->'+cookie);
         if(cookie){
             const accessToken = getAccessToken(cookie);
             const { nick } = parseAccessToken(accessToken);
@@ -30,24 +31,7 @@ const My: React.FC = () => {
             setSignedIn(!!nick);
             setNick(nick || '');    
         }
-
-        test();
     }, [once]);
-
-
-    
-    const test = () => {
-        console.log("url ->"+SERVER_IP+"/test");
-        fetch(SERVER_IP+"/test", {
-            method: 'GET',
-        })
-        .then(response => response.text())
-        .then(body => {
-            console.log("body ="+body);
-        })
-    }
-
-
     
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
