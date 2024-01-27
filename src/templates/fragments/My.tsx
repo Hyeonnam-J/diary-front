@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import my from '../../assets/imgs/my.png';
 
-import { SERVER_IP } from '../../Config';
 import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
