@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import SignLayout from "../../layouts/SignLayout";
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/user/signIn.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
+import Layout from "../../../stylesheets/modules/layout.module.css";
+import '../../../stylesheets/pages/user/signIn.css';
+import SignLayout from "../../layouts/SignLayout";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const SignIn = () => {
             password: passwordInput.value,
         }
 
-        const response = fetch(SERVER_IP+'/signIn', {
+        fetch(SERVER_IP+'/signIn', {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -27,10 +27,18 @@ const SignIn = () => {
         })
         .then(response => {
             if(response.ok){
+                console.log("after signIn -> "+document.cookie);
+
+                const test = response.headers.get('test');
+                console.log('test -> '+test);
+
+                const setCookie = response.headers.get('Set-Cookie');
+                console.log('setCookie -> '+setCookie);
+    
                 const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
                 const isStay = isStayInput.checked.toString();
                 localStorage.setItem('isStay', isStay);
-
+    
                 navigate('/');
             }
         })
