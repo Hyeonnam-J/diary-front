@@ -28,11 +28,11 @@ const SignIn = () => {
         .then(response => {
             if(response.ok){
                 console.log("after signIn -> "+document.cookie);
-
+    
                 const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
                 const isStay = isStayInput.checked.toString();
                 localStorage.setItem('isStay', isStay);
-
+    
                 navigate('/');
             }
         })
