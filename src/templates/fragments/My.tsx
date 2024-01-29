@@ -22,7 +22,6 @@ const My: React.FC = () => {
 
     useEffect(() => {
         const cookie = getCookie();
-        console.log('my ->'+cookie);
         if(cookie){
             const accessToken = getAccessToken(cookie);
             const { nick } = parseAccessToken(accessToken);
