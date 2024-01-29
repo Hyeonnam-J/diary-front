@@ -27,14 +27,6 @@ const SignIn = () => {
         })
         .then(response => {
             if(response.ok){
-                console.log("after signIn -> "+document.cookie);
-
-                const test = response.headers.get('test');
-                console.log('test -> '+test);
-
-                const setCookie = response.headers.get('Set-Cookie');
-                console.log('setCookie -> '+setCookie);
-    
                 const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
                 const isStay = isStayInput.checked.toString();
                 localStorage.setItem('isStay', isStay);
