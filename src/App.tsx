@@ -19,6 +19,10 @@ function App() {
         };
     }, []);
 
+    // const handleLeave = () => {
+        
+    // }
+
     return (
         // URL 변경을 React-Router가 감지.
         // map 함수로 순회하며 routes 배열의 path와 변경된 URL이 일치하는지 확인.
@@ -26,7 +30,12 @@ function App() {
         <Routes>
             {/* 해시 셋으로 바로 접근해버리면 훨씬 빠르지만 코드의 간편성, 유지보수를 위해 이게 일반적인 방법? */}
             {routes.map((route: RouteConfig) => (
-                <Route key={route.path} path={route.path} element={route.element} />
+                <Route 
+                    key={route.path} 
+                    path={route.path} 
+                    element={route.element} 
+                    // onLeave={handleLeave}
+                />
             ))}
         </Routes>
     );
