@@ -1,29 +1,14 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import DefaultLayout from "../../layouts/DefaultLayout";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
-import { Navigate, useNavigate, useLocation } from 'react-router-dom';
+import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostReply = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
     const postId = location?.state?.postId;
-
-    useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
-        }
-    }, []);
 
     const reply = () => {
         const title = document.querySelector('input[name="reply-title"]') as HTMLInputElement;
@@ -38,9 +23,8 @@ const FreeBoardPostReply = () => {
         fetch(SERVER_IP+"/freeBoard/post/reply", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })

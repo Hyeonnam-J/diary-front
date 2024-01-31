@@ -1,20 +1,22 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import DefaultLayout from "../../layouts/DefaultLayout";
-import { SERVER_IP, Page } from "../../../Config";
-import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
-import Button from "../../../stylesheets/modules/button.module.css";
-import { Navigate, useNavigate, useLocation } from 'react-router-dom';
-import { FreeBoardPostDetail, FreeBoardComment } from "../../../type/FreeBoard"
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Page, SERVER_IP } from "../../../Config";
 import { user } from "../../../auth/auth";
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
+import Button from "../../../stylesheets/modules/button.module.css";
+import Layout from "../../../stylesheets/modules/layout.module.css";
+import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
+import { FreeBoardComment, FreeBoardPostDetail } from "../../../type/FreeBoard";
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostDetailRead = () => {
+    const once = true;
+
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [userId, setUserId] = useState<number | null>(0);
 
     const postId = location?.state?.postId;
     const [post, setPost] = useState<FreeBoardPostDetail | null>(null);
@@ -22,45 +24,16 @@ const FreeBoardPostDetailRead = () => {
 
     const [totalCommentsCount, setTotalCommentsCount] = useState(0);
     const [totalPageCount, setTotalPageCount] = useState(0);
-    const [totalBlockCount, setTotalBlockCount] = useState(0);
 
     const [curPage, setCurPage] = useState(0);
 
     const [replyingStates, setReplyingStates] = useState<Record<string, boolean>>({});
     const [updatingStates, setUpdatingStates] = useState<Record<string, boolean>>({});
 
-    useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
-        }
-
-        getTotalCommentsCount();
-    }, []);
-
-    useEffect(() => {
-        setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
-    }, [totalCommentsCount]);
-
-    useEffect(() => {
-        setTotalBlockCount(Math.ceil(totalPageCount / Page.perBlockSize));
-    }, [totalPageCount]);
-
-    useEffect(() => {
-        getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
-    }, [curPage]);
-
-    useEffect(() => {
-        getPost(postId);
-    }, []);
-
-    const getTotalCommentsCount = () => {
-        const response = fetch(SERVER_IP + `/freeBoard/comments/totalCount/${postId}`, {
+    const getTotalCommentsCount = useCallback(() => {
+        fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -68,12 +41,43 @@ const FreeBoardPostDetailRead = () => {
         })
         .catch(error => {
             console.log(error);
-        })
-    }
+        });
+    }, [postId, setTotalCommentsCount]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setUserId(userId);
+            }
+        }
+
+        fetchData();
+    }, [once]);
+
+    useEffect(() => {
+        getTotalCommentsCount();
+    }, [postId, getTotalCommentsCount]);    // ESLint 경고 때문에 의미 없이 함수를 의존성 배열에 넣음.
+
+    useEffect(() => {
+        setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
+    }, [totalCommentsCount]);
+
+    useEffect(() => {
+        getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
+    }, [curPage, postId]);
+
+    useEffect(() => {
+        getPost(postId);
+    }, [postId]);
 
     const getComments = (uri: string) => {
-        const response = fetch(SERVER_IP + uri, {
+        fetch(SERVER_IP + uri, {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -86,9 +90,8 @@ const FreeBoardPostDetailRead = () => {
 
     const getPost = (postId: number) => {
         fetch(`${SERVER_IP}/freeBoard/post/read/${postId}`, {
-            headers: {
-            },
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -97,33 +100,31 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const replyPost = async (post: FreeBoardPostDetail | null) => {
-        if(!userId) {
+        if(userId === 0) {
             alert('Please sign in');
             return;
         }
 
-        const isAuth = await user(userId || '', accessToken || '');
+        const isAuth = await user();
         if (isAuth) {
             if (post) navigate('/freeBoard/post/reply', { state: { postId: post.id } });
         } else navigate('/signIn');
     }
 
     const updatePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || -1) == post?.user.id) {
+        if ((userId || 0) === post?.user.id) {
             navigate('/freeBoard/post/update', { state: { post: post } });
         } else alert('You are not writer');
     }
 
     const deletePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || -1) == post?.user.id) {
+        if ((userId || 0) === post?.user.id) {
             fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
-                headers: {
-                    "Authorization": accessToken || '',
-                },
                 method: 'DELETE',
+                credentials: "include",
             })
             .then(response => {
-                if(response.status == 403){
+                if(response.status === 403){
                     alert('Replies exist');
                     return;
                 }
@@ -134,7 +135,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const writeComment = () => {
-        if(!userId){
+        if(userId === 0){
             alert('Please sign in');
             return;
         }
@@ -149,9 +150,8 @@ const FreeBoardPostDetailRead = () => {
         fetch(SERVER_IP+"/freeBoard/comment/write", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })
@@ -164,7 +164,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const replyComment = (commentId: string) => {
-        if(!userId){
+        if(userId === 0){
             alert('Please sign in');
             return;
         }
@@ -179,9 +179,8 @@ const FreeBoardPostDetailRead = () => {
         fetch(SERVER_IP+"/freeBoard/comment/reply", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })
@@ -201,7 +200,7 @@ const FreeBoardPostDetailRead = () => {
     };
 
     const showUpdateCommentFrame = (commentId: string) => {
-        if(!userId){
+        if(userId === 0){
             alert('please sign in');
             return;
         }
@@ -214,10 +213,7 @@ const FreeBoardPostDetailRead = () => {
     const updateComment = (commentId: string) => {
         const updateTextarea = document.querySelector(`#read-comment-${commentId} .read-comment-update`) as HTMLTextAreaElement;
 
-        let updatedContent = '';
-        if(updateTextarea){
-            updatedContent = updateTextarea.value;
-        }
+        let updatedContent = updateTextarea ? updateTextarea.value : ''; 
         
         const data = {
             commentId: commentId,
@@ -227,9 +223,9 @@ const FreeBoardPostDetailRead = () => {
         fetch(SERVER_IP+"/freeBoard/comment/update", {
             headers: {
                 "Content-Type": 'application/json',
-                "Authorization": accessToken || '',
             },
-            method: 'POST',
+            credentials: "include",
+            method: 'PUT',
             body: JSON.stringify(data),
         })
         .then(body => {
@@ -240,19 +236,17 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const deleteComment = (comment: FreeBoardComment) => {
-        if(userId !== comment.user.id.toString()) {
+        if(userId !== comment.user.id) {
             alert('Unauthorization');
             return;
         }
 
         fetch(`${SERVER_IP}/freeBoard/comment/delete/${comment.id}`, {
-            headers: {
-                "Authorization": accessToken || '',
-            },
             method: 'DELETE',
+            credentials: "include",
         })
         .then(response => {
-            if(response.status == 403){
+            if(response.status === 403){
                 alert('Replies exist');
                 return;
             }
@@ -292,7 +286,7 @@ const FreeBoardPostDetailRead = () => {
                 
                 <div id='read-comment'>
                     {comments.map((comment) => {
-                        const isCurrentUserComment = comment.user.id.toString() === userId;
+                        const isCurrentUserComment = comment.user.id.toString() === String(userId);;
                         const isReplyingToComment = replyingStates[comment.id] || false;
                         const isUpdatingComment = updatingStates[comment.id] || false;
 

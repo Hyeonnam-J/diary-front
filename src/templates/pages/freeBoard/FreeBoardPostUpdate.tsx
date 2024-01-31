@@ -1,30 +1,15 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import DefaultLayout from "../../layouts/DefaultLayout";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/freeBoard/freeBoardPostUpdate.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
-import { useNavigate, useLocation } from 'react-router-dom';
-import { FreeBoardPostDetail } from "../../../type/FreeBoard"
+import '../../../stylesheets/pages/freeBoard/freeBoardPostUpdate.css';
+import { FreeBoardPostDetail } from "../../../type/FreeBoard";
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostUpdate = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
     const post: FreeBoardPostDetail = location?.state?.post;
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
-        }
-    }, []);
 
     const update = () => {
         const title = document.querySelector('input[name="update-title"]') as HTMLInputElement;
@@ -39,8 +24,8 @@ const FreeBoardPostUpdate = () => {
         fetch(SERVER_IP+"/freeBoard/post/update", {
             headers: {
                 "Content-Type": 'application/json',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'PUT',
             body: JSON.stringify(data),
         })

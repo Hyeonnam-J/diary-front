@@ -1,27 +1,11 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import DefaultLayout from "../../layouts/DefaultLayout";
+import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/freeBoard/freeBoardPostWrite.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
-import { Navigate, useNavigate } from 'react-router-dom';
+import '../../../stylesheets/pages/freeBoard/freeBoardPostWrite.css';
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostWrite = () => {
     const navigate = useNavigate();
-
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
-        }
-    }, []);
 
     const write = () => {
         const title = document.querySelector('input[name="write-title"]') as HTMLInputElement;
@@ -35,9 +19,8 @@ const FreeBoardPostWrite = () => {
         fetch(SERVER_IP+"/freeBoard/post/write", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })

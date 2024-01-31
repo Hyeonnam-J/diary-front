@@ -1,43 +1,44 @@
-import React, { ReactNode, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { useNavigate } from 'react-router-dom';
 import DefaultLayout from '../../layouts/DefaultLayout';
 
-import { SERVER_IP, Page } from "../../../Config";
+import { Page, SERVER_IP } from "../../../Config";
 
 import { user } from "../../../auth/auth";
-import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard"
+import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard";
 
-import '../../../stylesheets/pages/freeBoard/freeBoard.css';
 import Button from "../../../stylesheets/modules/button.module.css";
+import '../../../stylesheets/pages/freeBoard/freeBoard.css';
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoard = () => {
+    const once = true;
     const navigate = useNavigate();
 
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [userId, setUserId] = useState<number | null>(0);
 
     const [posts, setPosts] = useState<FreeBoardPosts[]>(() => []);
 
     const [totalPostsCount, setTotalPostsCount] = useState(0);
     const [totalPageCount, setTotalPageCount] = useState(0);
-    const [totalBlockCount, setTotalBlockCount] = useState(0);
 
     const [curPage, setCurPage] = useState(0);
-    const [sort, setSort] = useState(FreeBoardSort.BASIC);
 
     useEffect(() => {
-        const isStay = localStorage.getItem('isStay');
-        if(isStay === "true"){
-            setUserId(localStorage.getItem('userId'));
-            setAccessToken(localStorage.getItem('accessToken'));
-        }else{
-            setUserId(sessionStorage.getItem('userId'));
-            setAccessToken(sessionStorage.getItem('accessToken'));
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setUserId(userId);
+            }
         }
 
+        fetchData();
         getTotalPostsCount();
-    }, []);
+    }, [once]);
 
     /* 비동기 때문에 나눠야 한다. */
     useEffect(() => {
@@ -45,17 +46,14 @@ const FreeBoard = () => {
     }, [totalPostsCount]);
 
     useEffect(() => {
-        setTotalBlockCount(Math.ceil(totalPageCount / Page.perBlockSize));
-    }, [totalPageCount]);
-    /* 비동기 때문에 나눠야 한다. */
-
-    useEffect(() => {
+        const sort = FreeBoardSort.BASIC;
         getPosts(`/freeBoard/posts?page=${curPage}&sort=${sort}`);
-    }, [curPage, sort]);
+    }, [curPage]);
 
     const getTotalPostsCount = () => {
-        const response = fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
+        fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -67,8 +65,9 @@ const FreeBoard = () => {
     }
 
     const getPosts = (uri: string) => {
-        const response = fetch(SERVER_IP+uri, {
+        fetch(SERVER_IP+uri, {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -80,12 +79,12 @@ const FreeBoard = () => {
     }
 
     const write = async () => {
-        if(!userId) {
+        if(userId === 0) {
             alert('Please sign in');
             return;
         }
         
-        const isAuth = await user(userId || '', accessToken || '');
+        const isAuth = await user();
         if(isAuth) navigate('/freeBoard/post/write');
         else navigate('/signIn');
     }
@@ -117,7 +116,7 @@ const FreeBoard = () => {
                         </thead>
                         <tbody>
                             {posts.map((post) => {
-                                const prefixTitle = post.depth == 0 ? '' : '└ ';
+                                const prefixTitle = post.depth === 0 ? '' : '└ ';
                                 const paddingLeft = 10 * post.depth;
 
                                 return (

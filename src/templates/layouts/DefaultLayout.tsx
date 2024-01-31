@@ -32,6 +32,7 @@ const menuClickHandler = (uri: string, userId: string | null, accessToken: strin
 }
 
 const Layout: React.FC<LayoutProps> = (props) => {
+
     const [isNavOpen, setNavOpen] = useState(false);
 
     // 초깃값 null. 타입은 string.
