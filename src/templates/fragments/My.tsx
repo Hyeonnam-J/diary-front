@@ -50,7 +50,7 @@ const My: React.FC = () => {
                     <ul className='my-contents' style={{ display: !isSignedIn ? 'block' : 'none' }}>
                         <li><Link to="/">Home</Link></li>
                         <span className='separator'></span>
-                        <li><Link to="/signIn">Sign In</Link></li>
+                        <li id='li-signIn'><Link to="/signIn">Sign In</Link></li>
                         <li><Link to="/signUp">Sign Up</Link></li>
                     </ul>
                     <ul className='my-contents' style={{ display: isSignedIn ? 'block' : 'none' }}>

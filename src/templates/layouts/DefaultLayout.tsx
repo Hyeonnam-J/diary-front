@@ -30,7 +30,6 @@ const Layout: React.FC<LayoutProps> = (props) => {
             {/* nav-contents html 요소를 Nav.tsx에서 제어하기에는 코드가 복잡해짐
             DefaultLayout에 html 요소를 넣고 display 요소를 제어하는 것이 간편 */}
             <div id='nav-contents-box' style={{ left: isNavOpen ? '0' : navWidthMinus }}>
-                <h3 id='nav-greetings'>Welcome</h3>
                 <ul id='nav-contents'>
                     <li><Link to="/freeBoard">free board</Link></li>
                 </ul>
