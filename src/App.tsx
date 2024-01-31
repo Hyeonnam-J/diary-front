@@ -20,9 +20,9 @@ function App() {
         };
     }, [once]);
 
-    const handleLeave = () => {
+    // const handleLeave = () => {
         
-    }
+    // }
 
     return (
         // URL 변경을 React-Router가 감지.
