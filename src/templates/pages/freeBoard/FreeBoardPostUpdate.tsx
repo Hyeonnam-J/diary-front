@@ -1,36 +1,15 @@
-import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostUpdate.css';
 import { FreeBoardPostDetail } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoardPostUpdate = () => {
-    const once = true;
-
     const navigate = useNavigate();
     const location = useLocation();
 
     const post: FreeBoardPostDetail = location?.state?.post;
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-    const [userId, setUserId] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const cookie = getCookie();
-            if(cookie){
-                const accessToken = getAccessToken(cookie);
-                const { userId } = parseAccessToken(accessToken);
-
-                setAccessToken(accessToken);
-                setUserId(userId);
-            }
-        }
-
-        fetchData();
-    }, [once]);
 
     const update = () => {
         const title = document.querySelector('input[name="update-title"]') as HTMLInputElement;
@@ -45,9 +24,8 @@ const FreeBoardPostUpdate = () => {
         fetch(SERVER_IP+"/freeBoard/post/update", {
             headers: {
                 "Content-Type": 'application/json',
-                "Authorization": accessToken || '',
-                "userId": userId || ''
             },
+            credentials: "include",
             method: 'PUT',
             body: JSON.stringify(data),
         })

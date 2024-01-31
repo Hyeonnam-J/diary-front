@@ -3,12 +3,12 @@ import ReactPaginate from 'react-paginate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Page, SERVER_IP } from "../../../Config";
 import { user } from "../../../auth/auth";
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
 import { FreeBoardComment, FreeBoardPostDetail } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 
 const FreeBoardPostDetailRead = () => {
     const once = true;
@@ -16,8 +16,7 @@ const FreeBoardPostDetailRead = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [userId, setUserId] = useState<number | null>(0);
 
     const postId = location?.state?.postId;
     const [post, setPost] = useState<FreeBoardPostDetail | null>(null);
@@ -34,6 +33,7 @@ const FreeBoardPostDetailRead = () => {
     const getTotalCommentsCount = useCallback(() => {
         fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -51,7 +51,6 @@ const FreeBoardPostDetailRead = () => {
                 const accessToken = getAccessToken(cookie);
                 const { userId } = parseAccessToken(accessToken);
 
-                setAccessToken(accessToken);
                 setUserId(userId);
             }
         }
@@ -78,6 +77,7 @@ const FreeBoardPostDetailRead = () => {
     const getComments = (uri: string) => {
         fetch(SERVER_IP + uri, {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -90,9 +90,8 @@ const FreeBoardPostDetailRead = () => {
 
     const getPost = (postId: number) => {
         fetch(`${SERVER_IP}/freeBoard/post/read/${postId}`, {
-            headers: {
-            },
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -101,30 +100,28 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const replyPost = async (post: FreeBoardPostDetail | null) => {
-        if(!userId) {
+        if(userId === 0) {
             alert('Please sign in');
             return;
         }
 
-        const isAuth = await user(userId || '', accessToken || '');
+        const isAuth = await user();
         if (isAuth) {
             if (post) navigate('/freeBoard/post/reply', { state: { postId: post.id } });
         } else navigate('/signIn');
     }
 
     const updatePost = async (post: FreeBoardPostDetail | null) => {
-        if ((parseInt(userId || '-1', 10) || -1) === post?.user.id) {
+        if ((userId || 0) === post?.user.id) {
             navigate('/freeBoard/post/update', { state: { post: post } });
         } else alert('You are not writer');
     }
 
     const deletePost = async (post: FreeBoardPostDetail | null) => {
-        if ((parseInt(userId || '-1', 10) || -1) === post?.user.id) {
+        if ((userId || 0) === post?.user.id) {
             fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
-                headers: {
-                    "Authorization": accessToken || '',
-                },
                 method: 'DELETE',
+                credentials: "include",
             })
             .then(response => {
                 if(response.status === 403){
@@ -138,7 +135,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const writeComment = () => {
-        if(!userId){
+        if(userId === 0){
             alert('Please sign in');
             return;
         }
@@ -153,9 +150,8 @@ const FreeBoardPostDetailRead = () => {
         fetch(SERVER_IP+"/freeBoard/comment/write", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })
@@ -168,7 +164,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const replyComment = (commentId: string) => {
-        if(!userId){
+        if(userId === 0){
             alert('Please sign in');
             return;
         }
@@ -183,9 +179,8 @@ const FreeBoardPostDetailRead = () => {
         fetch(SERVER_IP+"/freeBoard/comment/reply", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })
@@ -205,7 +200,7 @@ const FreeBoardPostDetailRead = () => {
     };
 
     const showUpdateCommentFrame = (commentId: string) => {
-        if(!userId){
+        if(userId === 0){
             alert('please sign in');
             return;
         }
@@ -218,10 +213,7 @@ const FreeBoardPostDetailRead = () => {
     const updateComment = (commentId: string) => {
         const updateTextarea = document.querySelector(`#read-comment-${commentId} .read-comment-update`) as HTMLTextAreaElement;
 
-        let updatedContent = '';
-        if(updateTextarea){
-            updatedContent = updateTextarea.value;
-        }
+        let updatedContent = updateTextarea ? updateTextarea.value : ''; 
         
         const data = {
             commentId: commentId,
@@ -231,9 +223,9 @@ const FreeBoardPostDetailRead = () => {
         fetch(SERVER_IP+"/freeBoard/comment/update", {
             headers: {
                 "Content-Type": 'application/json',
-                "Authorization": accessToken || '',
             },
-            method: 'POST',
+            credentials: "include",
+            method: 'PUT',
             body: JSON.stringify(data),
         })
         .then(body => {
@@ -244,16 +236,14 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const deleteComment = (comment: FreeBoardComment) => {
-        if(userId !== comment.user.id.toString()) {
+        if(userId !== comment.user.id) {
             alert('Unauthorization');
             return;
         }
 
         fetch(`${SERVER_IP}/freeBoard/comment/delete/${comment.id}`, {
-            headers: {
-                "Authorization": accessToken || '',
-            },
             method: 'DELETE',
+            credentials: "include",
         })
         .then(response => {
             if(response.status === 403){

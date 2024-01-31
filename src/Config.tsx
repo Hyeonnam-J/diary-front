@@ -2,6 +2,6 @@
 export const SERVER_IP = 'https://api.my-diary.life';
 
 export const Page = {
-  perPageSize: 10,
-  perBlockSize: 5,
+    perPageSize: 10,
+    perBlockSize: 5,
 }

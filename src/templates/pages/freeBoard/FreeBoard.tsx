@@ -16,8 +16,7 @@ const FreeBoard = () => {
     const once = true;
     const navigate = useNavigate();
 
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [userId, setUserId] = useState<number | null>(0);
 
     const [posts, setPosts] = useState<FreeBoardPosts[]>(() => []);
 
@@ -33,7 +32,6 @@ const FreeBoard = () => {
                 const accessToken = getAccessToken(cookie);
                 const { userId } = parseAccessToken(accessToken);
 
-                setAccessToken(accessToken);
                 setUserId(userId);
             }
         }
@@ -55,6 +53,7 @@ const FreeBoard = () => {
     const getTotalPostsCount = () => {
         fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -68,6 +67,7 @@ const FreeBoard = () => {
     const getPosts = (uri: string) => {
         fetch(SERVER_IP+uri, {
             method: 'GET',
+            credentials: "include",
         })
         .then(response => response.json())
         .then(body => {
@@ -79,12 +79,12 @@ const FreeBoard = () => {
     }
 
     const write = async () => {
-        if(!userId) {
+        if(userId === 0) {
             alert('Please sign in');
             return;
         }
         
-        const isAuth = await user(userId || '', accessToken || '');
+        const isAuth = await user();
         if(isAuth) navigate('/freeBoard/post/write');
         else navigate('/signIn');
     }

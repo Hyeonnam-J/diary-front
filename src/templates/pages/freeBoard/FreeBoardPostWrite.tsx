@@ -1,32 +1,11 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
-import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostWrite.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostWrite = () => {
-    const once = true;
     const navigate = useNavigate();
-
-    const [userId, setUserId] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const cookie = getCookie();
-            if (cookie) {
-                const accessToken = getAccessToken(cookie);
-                const { userId } = parseAccessToken(accessToken);
-    
-                setAccessToken(accessToken);
-                setUserId(userId);
-            }
-        };
-    
-        fetchData();
-    }, [once]);
 
     const write = () => {
         const title = document.querySelector('input[name="write-title"]') as HTMLInputElement;
@@ -40,9 +19,8 @@ const FreeBoardPostWrite = () => {
         fetch(SERVER_IP+"/freeBoard/post/write", {
             headers: {
                 "Content-Type": 'application/json',
-                "userId": userId || '',
-                "Authorization": accessToken || '',
             },
+            credentials: "include",
             method: 'POST',
             body: JSON.stringify(data),
         })
