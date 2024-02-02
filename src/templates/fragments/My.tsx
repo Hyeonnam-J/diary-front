@@ -6,6 +6,7 @@ import my from '../../assets/imgs/my.png';
 import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
+import { SERVER_IP } from '../../Config';
 
 const My: React.FC = () => {
     const once = true;
@@ -21,6 +22,17 @@ const My: React.FC = () => {
     const [nick, setNick] = useState('');
 
     useEffect(() => {
+        // 새로고침이면,
+        const isRefresh = sessionStorage.getItem('isRefresh');
+        if(isRefresh === 'true'){
+            // isStay가 true면 쿠키를 안 지우니 살아있지만 false면 지워지니 여기 시작 탬플릿에서 다시 할당.
+            const isStay = localStorage.getItem('isStay');
+            if(isStay === 'false'){
+                const documentDotCookie = sessionStorage.getItem('documentDotCookie');
+                if(documentDotCookie) document.cookie = documentDotCookie;
+            }
+        }
+
         const cookie = getCookie();
         if(cookie){
             const accessToken = getAccessToken(cookie);

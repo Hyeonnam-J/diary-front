@@ -30,6 +30,9 @@ const SignIn = () => {
                 const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
                 const isStay = isStayInput.checked.toString();
                 localStorage.setItem('isStay', isStay);
+
+                // 새로고침을 대비해 로그인 후 세션 스토리지에도 쿠키 값 넣어둔다. 
+                sessionStorage.setItem('documentDotCookie', document.cookie);
     
                 navigate('/');
             }
