@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { deleteCookie, getCookie } from './auth/cookie';
+import { deleteCookie } from './auth/cookie';
 import routes, { RouteConfig } from './templates/RouteConfig';
-import { SERVER_IP } from './Config';
 
 function App() {
     const once = true;

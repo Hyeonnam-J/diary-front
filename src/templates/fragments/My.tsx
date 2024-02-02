@@ -6,7 +6,6 @@ import my from '../../assets/imgs/my.png';
 import { deleteCookie, getAccessToken, getCookie, parseAccessToken } from '../../auth/cookie';
 import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
-import { SERVER_IP } from '../../Config';
 
 const My: React.FC = () => {
     const once = true;
