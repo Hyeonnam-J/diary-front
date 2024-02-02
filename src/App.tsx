@@ -1,14 +1,28 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { deleteCookie } from './auth/cookie';
 import routes, { RouteConfig } from './templates/RouteConfig';
-import { deleteCookie, getCookie } from './auth/cookie';
 
 function App() {
+    const once = true;
 
+    /**
+     * isStay === true, 세션 스토리지 신경 쓸 필요 없다. 로직 신경 쓸 필요 없다.
+     * 
+     * isStay === false, out일 때 쿠키 삭제. 세션 스토리지는 자동으로 삭제.
+     * isStay === false, refresh일 때 쿠키 어쩔 수 없이 삭제. 세션 스토리지는 유지되므로 초기 탬플릿에서 다시 document.cookie에 세션 스토리지의 쿠키 값 넣어준다.
+     * 
+     * 새로고침 후 초기 설정은 addEventListener의 load지만 불규칙적으로 동작. My 탬플릿에서 초기 설정 중.
+     */
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            // 새로고침이면 세션 스토리지는 유지되니 새로고침 탬플릿에서 isRefresh 값을 판별해볼 수 있다.
+            // 새로고침 아니면 어차피 지워질 테니 값은 참으로 통일해도 상관 없음.
+            sessionStorage.setItem('isRefresh', 'true');
+
+            // isStay === false, out일 때 쿠키 삭제.
             const isStay = localStorage.getItem('isStay');
-            if(isStay === 'false') if(getCookie()) deleteCookie();
+            if(isStay === 'false') deleteCookie();
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -17,11 +31,7 @@ function App() {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, []);
-
-    // const handleLeave = () => {
-        
-    // }
+    }, [once]);
 
     return (
         // URL 변경을 React-Router가 감지.
@@ -34,7 +44,6 @@ function App() {
                     key={route.path} 
                     path={route.path} 
                     element={route.element} 
-                    // onLeave={handleLeave}
                 />
             ))}
         </Routes>
