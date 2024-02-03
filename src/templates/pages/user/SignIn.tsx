@@ -11,6 +11,7 @@ const SignIn = () => {
 
     const requestSignIn = async () => {
         deleteCookie();
+        localStorage.clear();
         sessionStorage.clear();
         
         const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement
@@ -21,26 +22,25 @@ const SignIn = () => {
             password: passwordInput.value,
         }
 
-        fetch(SERVER_IP+'/signIn', {
+        const response = await fetch(SERVER_IP+'/signIn', {
             headers: {
                 "Content-Type": 'application/json',
             },
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify(data),
-        })
-        .then(response => {
-            if(response.ok){
-                const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
-                const isStay = isStayInput.checked.toString();
-                localStorage.setItem('isStay', isStay);
-    
-                navigate('/');
-            }
-        })
-        .catch(e => {
-            console.log(e);
-        })
+        });
+
+        if(response.ok){
+            const isStayInput = document.querySelector('input[name="staySignedIn"]') as HTMLInputElement;
+            const isStay = isStayInput.checked.toString();
+            localStorage.setItem('isStay', isStay);
+
+            // 새로고침을 대비해 로그인 후 세션 스토리지에도 쿠키 값 넣어둔다. 
+            sessionStorage.setItem('documentDotCookie', document.cookie);
+
+            navigate('/');
+        }
     }
     return (
         <SignLayout>

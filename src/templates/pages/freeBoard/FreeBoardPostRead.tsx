@@ -7,8 +7,9 @@ import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cooki
 import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
-import { FreeBoardComment, FreeBoardPostDetail } from "../../../type/FreeBoard";
+import { FreeBoardComment, FreeBoardPostRead } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
 
 const FreeBoardPostDetailRead = () => {
     const once = true;
@@ -19,7 +20,7 @@ const FreeBoardPostDetailRead = () => {
     const [userId, setUserId] = useState<number | null>(0);
 
     const postId = location?.state?.postId;
-    const [post, setPost] = useState<FreeBoardPostDetail | null>(null);
+    const [post, setPost] = useState<FreeBoardPostRead | null>(null);
     const [comments, setComments] = useState<FreeBoardComment[]>([]);
 
     const [totalCommentsCount, setTotalCommentsCount] = useState(0);
@@ -44,18 +45,16 @@ const FreeBoardPostDetailRead = () => {
         fetchData();
     }, [once]);
 
-    const getTotalCommentsCount = useCallback(() => {
-        fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
+    const getTotalCommentsCount = useCallback( async () => {
+        const response = await fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
             method: 'GET',
             credentials: "include",
         })
-        .then(response => response.json())
-        .then(body => {
+
+        if(response.ok){
+            const body: PlainDataResponse<number> = await response.json();
             setTotalCommentsCount(body.data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
+        }
     }, [postId, setTotalCommentsCount]);
 
     useEffect(() => {
@@ -74,32 +73,31 @@ const FreeBoardPostDetailRead = () => {
         getPost(postId);
     }, [postId]);
 
-    const getComments = (uri: string) => {
-        fetch(SERVER_IP + uri, {
+    const getComments = async (uri: string) => {
+        const response = await fetch(SERVER_IP + uri, {
             method: 'GET',
             credentials: "include",
         })
-        .then(response => response.json())
-        .then(body => {
+
+        if(response.ok){
+            const body: ListDataResponse<FreeBoardComment> = await response.json();
             setComments(body.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        }
     }
 
-    const getPost = (postId: number) => {
-        fetch(`${SERVER_IP}/freeBoard/post/read/${postId}`, {
+    const getPost = async (postId: number) => {
+        const response = await fetch(`${SERVER_IP}/freeBoard/post/read/${postId}`, {
             method: 'GET',
             credentials: "include",
         })
-        .then(response => response.json())
-        .then(body => {
+
+        if(response.ok){
+            const body: PlainDataResponse<FreeBoardPostRead> = await response.json();
             setPost(body.data);
-        })
+        }
     }
 
-    const replyPost = async (post: FreeBoardPostDetail | null) => {
+    const replyPost = async (post: FreeBoardPostRead | null) => {
         if(userId === 0) {
             alert('Please sign in');
             return;
@@ -113,7 +111,7 @@ const FreeBoardPostDetailRead = () => {
         }
     }
 
-    const updatePost = async (post: FreeBoardPostDetail | null) => {
+    const updatePost = async (post: FreeBoardPostRead | null) => {
         if ((userId || 0) !== post?.user.id) alert('You are not writer');
 
         const result = await user();
@@ -124,7 +122,7 @@ const FreeBoardPostDetailRead = () => {
         }
     }
 
-    const deletePost = async (post: FreeBoardPostDetail | null) => {
+    const deletePost = async (post: FreeBoardPostRead | null) => {
         if ((userId || 0) !== post?.user.id) alert('You are not writer');
         
         const result = await user();
@@ -145,7 +143,7 @@ const FreeBoardPostDetailRead = () => {
         }
     }
 
-    const writeComment = () => {
+    const writeComment = async () => {
         if(userId === 0){
             alert('Please sign in');
             return;
@@ -158,7 +156,7 @@ const FreeBoardPostDetailRead = () => {
             content: commentContent,
         }
         
-        fetch(SERVER_IP+"/freeBoard/comment/write", {
+        const response = await fetch(SERVER_IP+"/freeBoard/comment/write", {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -166,15 +164,16 @@ const FreeBoardPostDetailRead = () => {
             method: 'POST',
             body: JSON.stringify(data),
         })
-        .then(body => {
+
+        if(response.ok){
             getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             const textarea = document.querySelector<HTMLTextAreaElement>('#read-comment-write textarea');
             if (textarea) textarea.value = '';
-        })
+        }
     }
 
-    const replyComment = (commentId: string) => {
+    const replyComment = async (commentId: string) => {
         if(userId === 0){
             alert('Please sign in');
             return;
@@ -187,7 +186,7 @@ const FreeBoardPostDetailRead = () => {
             content: commentContent,
         }
 
-        fetch(SERVER_IP+"/freeBoard/comment/reply", {
+        const response = await fetch(SERVER_IP+"/freeBoard/comment/reply", {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -195,13 +194,16 @@ const FreeBoardPostDetailRead = () => {
             method: 'POST',
             body: JSON.stringify(data),
         })
-        .then(body => {
+
+        if(response.ok){
             getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             const textarea = document.querySelector<HTMLTextAreaElement>('#read-comment-reply textarea');
             if (textarea) textarea.value = '';
             showReplyCommentFrame(commentId);
-        })
+        }
+
+        initAllCommentFrame();
     }
 
     const showReplyCommentFrame = (commentId: string) => {
@@ -210,11 +212,12 @@ const FreeBoardPostDetailRead = () => {
             return;
         }
 
+        const isShow = replyingStates[commentId] ? true : false;
         initAllCommentFrame();
 
-        setReplyingStates((prevStates) => ({
-            [commentId]: !prevStates[commentId] || false,
-        }));
+        setReplyingStates({
+            [commentId]: !isShow,
+        });
     };
 
     const showUpdateCommentFrame = (commentId: string) => {
@@ -223,11 +226,12 @@ const FreeBoardPostDetailRead = () => {
             return;
         }
 
+        const isShow = updatingStates[commentId] ? true : false;
         initAllCommentFrame();
-        
-        setUpdatingStates((prevStates) => ({
-            [commentId]: !prevStates[commentId] || false,
-        }));
+            
+        setUpdatingStates({
+            [commentId]: !isShow,
+        });
     }
 
     // 선택된 것 외 다른 모든 답글, 업데이트 창을 닫는다.
@@ -236,7 +240,7 @@ const FreeBoardPostDetailRead = () => {
         setUpdatingStates({});
     }
 
-    const updateComment = (commentId: string) => {
+    const updateComment = async (commentId: string) => {
         const updateTextarea = document.querySelector(`#read-comment-${commentId} .read-comment-update`) as HTMLTextAreaElement;
 
         let updatedContent = updateTextarea ? updateTextarea.value : ''; 
@@ -246,7 +250,7 @@ const FreeBoardPostDetailRead = () => {
             content: updatedContent,
         }
 
-        fetch(SERVER_IP+"/freeBoard/comment/update", {
+        const response = await fetch(SERVER_IP+"/freeBoard/comment/update", {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -254,31 +258,33 @@ const FreeBoardPostDetailRead = () => {
             method: 'PUT',
             body: JSON.stringify(data),
         })
-        .then(body => {
+
+        if(response.ok){
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             updateTextarea.value = '';
             showUpdateCommentFrame(commentId);
-        })
+        }
+
+        initAllCommentFrame();
     }
 
-    const deleteComment = (comment: FreeBoardComment) => {
+    const deleteComment = async (comment: FreeBoardComment) => {
         if(userId !== comment.user.id) {
             alert('Unauthorization');
             return;
         }
 
-        fetch(`${SERVER_IP}/freeBoard/comment/delete/${comment.id}`, {
+        const response = await fetch(`${SERVER_IP}/freeBoard/comment/delete/${comment.id}`, {
             method: 'DELETE',
             credentials: "include",
         })
-        .then(response => {
-            if(response.status === 403){
-                alert('Replies exist');
-                return;
-            }
+
+        if(response.status === 403){
+            alert('Replies exist');
+        }else{
             getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
-        });
+        }
     }
 
     const list = () => {

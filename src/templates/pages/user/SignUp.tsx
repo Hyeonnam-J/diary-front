@@ -1,10 +1,9 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SignLayout from "../../layouts/SignLayout";
 import { SERVER_IP } from "../../../Config";
-import '../../../stylesheets/pages/user/signUp.css';
-import Layout from "../../../stylesheets/modules/layout.module.css";
 import Button from "../../../stylesheets/modules/button.module.css";
+import '../../../stylesheets/pages/user/signUp.css';
+import SignLayout from "../../layouts/SignLayout";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -34,7 +33,7 @@ const SignUp = () => {
             case "password":
                 if (!/^\S+$/.test(password)) {
                     return "Password cannot contain spaces";
-                } else if (/[^\x00-\x7F]/.test(password)) {
+                } else if (/[^ -~]/.test(password)) {
                     return "Password can contain only ASCII characters";
                 } else if (!/[A-Z]/.test(password)) {
                     return "Password must contain at least one uppercase letter";
@@ -153,51 +152,46 @@ const SignUp = () => {
             }
         }
 
-        try{
-            const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
-            const passwordInput = document.querySelector('input[name="password"]') as HTMLInputElement;
-            const passwordConfirmInput = document.querySelector('input[name="passwordConfirm"]') as HTMLInputElement;
-            const userNamedInput = document.querySelector('input[name="userName"]') as HTMLInputElement;
-            const nickInput = document.querySelector('input[name="nick"]') as HTMLInputElement;
-            const phoneNumberInput = document.querySelector('input[name="phoneNumber"]') as HTMLInputElement;
+        const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
+        const passwordInput = document.querySelector('input[name="password"]') as HTMLInputElement;
+        const passwordConfirmInput = document.querySelector('input[name="passwordConfirm"]') as HTMLInputElement;
+        const userNamedInput = document.querySelector('input[name="userName"]') as HTMLInputElement;
+        const nickInput = document.querySelector('input[name="nick"]') as HTMLInputElement;
+        const phoneNumberInput = document.querySelector('input[name="phoneNumber"]') as HTMLInputElement;
 
-            if(passwordInput.value != passwordConfirmInput.value){
-                alert('check your password confirm');
-                return;
-            }
+        if(passwordInput.value !== passwordConfirmInput.value){
+            alert('check your password confirm');
+            return;
+        }
 
-            const data = {
-                email: emailInput.value,
-                password: passwordInput.value,
-                userName: userNamedInput.value,
-                nick: nickInput.value,
-                phoneNumber: phoneNumberInput.value,
-            };
+        const data = {
+            email: emailInput.value,
+            password: passwordInput.value,
+            userName: userNamedInput.value,
+            nick: nickInput.value,
+            phoneNumber: phoneNumberInput.value,
+        };
 
-            const response = await fetch(SERVER_IP+'/signUp', {
+        const response = await fetch(SERVER_IP+'/signUp', {
             headers: {
                 "Content-Type": 'application/json',
             },
             method: 'POST',
 //             credentials: 'include',
             body: JSON.stringify(data),
-            })
-            .then(response => {
-                if(response.ok) {
-                    if(response.status == 208) {
-                        alert('duplicated email or nick. Please check your email and nick');
-                        return;
-                    }
-                    navigate('/');
-                    alert("Registration is complete")
-                }
-            })
-        }catch (error){
-            console.log('Error : ', error);
+        });
+
+        if(response.ok){
+            if(response.status === 208) {
+                alert('duplicated email or nick. Please check your email and nick');
+                return;
+            }
+            navigate('/');
+            alert("Registration is complete")
         }
     } // requestSignUp
 
-    const checkDuplication = (checkItem: string) => {
+    const checkDuplication = async (checkItem: string) => {
         // 체크 전에 input에 입력된 값의 유효성을 먼저 확인.
         let inputValid: boolean = false;
         switch(checkItem){
@@ -220,36 +214,35 @@ const SignUp = () => {
             value: input.value,
         }
 
-        fetch(SERVER_IP+'/signUp/checkDuplication', {
+        const response = await fetch(SERVER_IP+'/signUp/checkDuplication', {
             headers: {
                 "Content-Type": 'application/json',
             },
             method: 'POST',
             body: JSON.stringify(data),
-        })
-        .then(response => {
-            if(response.ok) {
-                if(response.status == 208) {
-                    alert('Existing value');
+        });
 
-                    setDuplicateValidations({
-                        ...duplicateValidations,
-                        [checkItem]: false,
-                    })
+        if(response.ok){
+            if(response.status === 208){
+                alert('Existing value');
 
-                    return;
-                }else if(response.status == 200) {
-                    alert('Valid value');
+                setDuplicateValidations({
+                    ...duplicateValidations,
+                    [checkItem]: false,
+                })
 
-                    setDuplicateValidations({
-                        ...duplicateValidations,
-                        [checkItem]: true,
-                    })
+                return;
+            }else if(response.status === 200){
+                alert('Valid value');
 
-                    return;
-                }
+                setDuplicateValidations({
+                    ...duplicateValidations,
+                    [checkItem]: true,
+                })
+
+                return;
             }
-        })
+        }
     }
 
     return (
