@@ -3,6 +3,7 @@ import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostReply.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { ErrorResponse } from '../../../type/Response';
 
 const FreeBoardPostReply = () => {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ const FreeBoardPostReply = () => {
 
     const postId = location?.state?.postId;
 
-    const reply = (): void => {
+    const reply = async () => {
         const title = document.querySelector('input[name="reply-title"]') as HTMLInputElement;
         const content = document.querySelector('textarea[name="reply-content"]') as HTMLInputElement;
 
@@ -20,7 +21,7 @@ const FreeBoardPostReply = () => {
             content: content.value
         }
 
-        fetch(SERVER_IP+"/freeBoard/post/reply", {
+        const response = await fetch(SERVER_IP+"/freeBoard/post/reply", {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -28,14 +29,14 @@ const FreeBoardPostReply = () => {
             method: 'POST',
             body: JSON.stringify(data),
         })
-        .then(response => {
-            if(response.ok){
-                navigate('/freeBoard');
-            }else{
-                response.json().then(data => alert(data.message));
-            }
-        });
+
+        if(response.ok) navigate('/freeBoard');
+        else{
+            const data: ErrorResponse = await response.json();
+            alert(data.message);
+        }
     }
+    
     return (
         <DefaultLayout>
             <div id='reply-frame'>

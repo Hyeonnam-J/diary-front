@@ -5,9 +5,9 @@
     height: var(--freeBoard-post-update-height);
 }
 
-#update-space {
+/* #update-space {
     height: 20%;
-}
+} */
 
 #update-header {
     height: 10%;
@@ -19,12 +19,14 @@
 
 #update-title {
     height: 5%;
+    font-size: var(--input-size-text);
 }
 
-#update-custom {
+/* #update-custom {
     height: 10%;
-}
+} */
 
 #update-content {
-    height: 45%;
+    height: 60%;
+    margin: 20px 0;
 }

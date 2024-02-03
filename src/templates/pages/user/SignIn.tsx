@@ -4,11 +4,15 @@ import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/user/signIn.css';
 import SignLayout from "../../layouts/SignLayout";
+import { deleteCookie } from '../../../auth/cookie';
 
 const SignIn = () => {
     const navigate = useNavigate();
 
     const requestSignIn = async () => {
+        deleteCookie();
+        sessionStorage.clear();
+        
         const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement
         const passwordInput = document.querySelector('input[name="password"]') as HTMLInputElement
 
