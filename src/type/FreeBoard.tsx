@@ -1,4 +1,4 @@
-export type FreeBoardPost = {
+export type FreeBoardPosts = {
     id: number,
     title: string,
     user: {
@@ -10,7 +10,7 @@ export type FreeBoardPost = {
     depth: number,
 };
 
-export type FreeBoardPostDetail = {
+export type FreeBoardPostRead = {
     id: number,
     title: string,
     content: string,
@@ -22,10 +22,6 @@ export type FreeBoardPostDetail = {
     createdDate: string,
     viewCount: number,
     depth: number,
-};
-
-export const FreeBoardSort = {
-    BASIC: "basic"
 };
 
 export type FreeBoardComment = {
@@ -38,4 +34,8 @@ export type FreeBoardComment = {
     content: string,
     createdDate: string,
     parent: boolean,
+};
+
+export const FreeBoardSort = {
+    BASIC: "basic"
 };

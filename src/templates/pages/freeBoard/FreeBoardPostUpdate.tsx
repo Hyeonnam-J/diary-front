@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostUpdate.css';
-import { FreeBoardPostDetail } from "../../../type/FreeBoard";
+import { FreeBoardPostRead } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { ErrorResponse } from '../../../type/Response';
 
@@ -10,7 +10,7 @@ const FreeBoardPostUpdate = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const post: FreeBoardPostDetail = location?.state?.post;
+    const post: FreeBoardPostRead = location?.state?.post;
 
     const update = async () => {
         const title = document.querySelector('input[name="update-title"]') as HTMLInputElement;
@@ -34,8 +34,8 @@ const FreeBoardPostUpdate = () => {
         if(response.ok){
             navigate('/freeBoard');
         }else{
-            const data: ErrorResponse = await response.json();
-            alert(data.message);
+            const body: ErrorResponse = await response.json();
+            alert(body.message);
         }
     }
     

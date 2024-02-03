@@ -32,8 +32,8 @@ const FreeBoardPostReply = () => {
 
         if(response.ok) navigate('/freeBoard');
         else{
-            const data: ErrorResponse = await response.json();
-            alert(data.message);
+            const body: ErrorResponse = await response.json();
+            alert(body.message);
         }
     }
     

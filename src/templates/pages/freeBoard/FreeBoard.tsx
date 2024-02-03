@@ -6,11 +6,12 @@ import DefaultLayout from '../../layouts/DefaultLayout';
 import { Page, SERVER_IP } from "../../../Config";
 
 import { user } from "../../../auth/auth";
-import { FreeBoardPost, FreeBoardSort } from "../../../type/FreeBoard";
+import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard";
 
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoard.css';
 import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
+import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
 
 const FreeBoard = () => {
     const once = true;
@@ -18,7 +19,7 @@ const FreeBoard = () => {
 
     const [userId, setUserId] = useState<number | null>(0);
 
-    const [posts, setPosts] = useState<FreeBoardPost[]>(() => []);
+    const [posts, setPosts] = useState<FreeBoardPosts[]>(() => []);
 
     const [totalPostsCount, setTotalPostsCount] = useState(0);
     const [totalPagesCount, setTotalPagesCount] = useState(0);
@@ -50,32 +51,28 @@ const FreeBoard = () => {
         getPosts(`/freeBoard/posts?page=${curPage}&sort=${sort}`);
     }, [curPage]);
 
-    const getTotalPostsCount = () => {
-        fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
+    const getTotalPostsCount = async () => {
+        const response = await fetch(SERVER_IP+"/freeBoard/posts/totalCount", {
             method: 'GET',
             credentials: "include",
         })
-        .then(response => response.json())
-        .then(body => {
+
+        if(response.ok){
+            const body: PlainDataResponse<number> = await response.json();
             setTotalPostsCount(body.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        }
     }
 
-    const getPosts = (uri: string) => {
-        fetch(SERVER_IP+uri, {
+    const getPosts = async (uri: string) => {
+        const response = await fetch(SERVER_IP+uri, {
             method: 'GET',
             credentials: "include",
         })
-        .then(response => response.json())
-        .then(body => {
+
+        if(response.ok){
+            const body: ListDataResponse<FreeBoardPosts> = await response.json();
             setPosts(body.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        }
     }
 
     const write = async () => {
@@ -92,7 +89,7 @@ const FreeBoard = () => {
         }
     }
 
-    const read = (post: FreeBoardPost) => {
+    const read = (post: FreeBoardPosts) => {
         navigate('/freeBoard/post/read', { state: { postId: post.id } });
     }
 
