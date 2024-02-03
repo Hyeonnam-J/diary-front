@@ -84,9 +84,12 @@ const FreeBoard = () => {
             return;
         }
         
-        const isAuth = await user();
-        if(isAuth) navigate('/freeBoard/post/write');
-        else navigate('/signIn');
+        const result = await user();
+        if(result.auth){
+            navigate('/freeBoard/post/write');
+        }else{
+            alert(result.message);
+        }
     }
 
     const read = (post: FreeBoardPost) => {

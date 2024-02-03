@@ -1,15 +1,25 @@
 import { SERVER_IP } from "../Config";
+import { ErrorResponse } from "../type/Response";
 
 export const user = async () => {
-    let auth = false;
+    let result = {
+        auth: false,
+        message: 'success'
+    }
 
-    await fetch(SERVER_IP+"/user", {
+    const response = await fetch(SERVER_IP+"/user", {
         method: 'GET',
         credentials: "include",
     })
-    .then(response => {
-        auth = response.status === 200 ? true : false;
-    });
+
+    console.log(response.json());
+
+    if(response.ok){
+        result.auth = true;
+    }else{
+        const data: ErrorResponse = await response.json();
+        result.message = data.message;
+    }
     
-    return auth;
+    return result;
 }

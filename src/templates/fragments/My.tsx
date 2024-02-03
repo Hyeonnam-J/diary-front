@@ -39,6 +39,8 @@ const My: React.FC = () => {
         setSignedIn(!isSignedIn);
         setDropdownVisible(!isDropdownVisible);
         if (getCookie()) deleteCookie();
+        sessionStorage.clear();
+        localStorage.clear();
         navigate('/');
     }
 

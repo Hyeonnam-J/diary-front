@@ -104,34 +104,45 @@ const FreeBoardPostDetailRead = () => {
             alert('Please sign in');
             return;
         }
-
-        const isAuth = await user();
-        if (isAuth) {
+        
+        const result = await user();
+        if(result.auth){
             if (post) navigate('/freeBoard/post/reply', { state: { postId: post.id } });
-        } else navigate('/signIn');
+        }else{
+            alert(result.message);
+        }
     }
 
     const updatePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || 0) === post?.user.id) {
+        if ((userId || 0) !== post?.user.id) alert('You are not writer');
+
+        const result = await user();
+        if(result.auth){
             navigate('/freeBoard/post/update', { state: { post: post } });
-        } else alert('You are not writer');
+        }else{
+            alert(result.message);
+        }
     }
 
     const deletePost = async (post: FreeBoardPostDetail | null) => {
-        if ((userId || 0) === post?.user.id) {
-            fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
+        if ((userId || 0) !== post?.user.id) alert('You are not writer');
+        
+        const result = await user();
+        if(result.auth){
+            const response = await fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
                 method: 'DELETE',
                 credentials: "include",
             })
-            .then(response => {
-                if(response.status === 403){
-                    alert('Replies exist');
-                    return;
-                }
 
+            if(response.status === 403){
+                alert('Replies exist');
+                return;
+            }else{
                 navigate('/freeBoard');
-            });
-        } else alert('You are not writer');
+            }
+        }else{
+            alert(result.message);
+        }
     }
 
     const writeComment = () => {

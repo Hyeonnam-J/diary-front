@@ -3,11 +3,12 @@ import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostWrite.css';
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { ErrorResponse } from '../../../type/Response';
 
 const FreeBoardPostWrite = () => {
     const navigate = useNavigate();
 
-    const write = () => {
+    const write = async () => {
         const title = document.querySelector('input[name="write-title"]') as HTMLInputElement;
         const content = document.querySelector('textarea[name="write-content"]') as HTMLInputElement;
 
@@ -16,7 +17,7 @@ const FreeBoardPostWrite = () => {
             content: content.value
         }
 
-        fetch(SERVER_IP+"/freeBoard/post/write", {
+        const response = await fetch(SERVER_IP+"/freeBoard/post/write", {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -24,14 +25,14 @@ const FreeBoardPostWrite = () => {
             method: 'POST',
             body: JSON.stringify(data),
         })
-        .then(response => {
-            if(response.ok){
-                navigate('/freeBoard');
-            }else{
-                response.json().then(data => alert(data.message));
-            }
-        });
+
+        if(response.ok) navigate('/freeBoard');
+        else{
+            const data: ErrorResponse = await response.json();
+            alert(data.message);
+        }
     }
+    
     return (
         <DefaultLayout>
             <div id='write-frame'>
