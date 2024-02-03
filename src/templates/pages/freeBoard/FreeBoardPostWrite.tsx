@@ -25,7 +25,11 @@ const FreeBoardPostWrite = () => {
             body: JSON.stringify(data),
         })
         .then(response => {
-            navigate('/freeBoard');
+            if(response.ok){
+                navigate('/freeBoard');
+            }else{
+                response.json().then(data => alert(data.message));
+            }
         });
     }
     return (

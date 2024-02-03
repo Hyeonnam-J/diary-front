@@ -10,7 +10,7 @@ const FreeBoardPostReply = () => {
 
     const postId = location?.state?.postId;
 
-    const reply = () => {
+    const reply = (): void => {
         const title = document.querySelector('input[name="reply-title"]') as HTMLInputElement;
         const content = document.querySelector('textarea[name="reply-content"]') as HTMLInputElement;
 
@@ -29,7 +29,11 @@ const FreeBoardPostReply = () => {
             body: JSON.stringify(data),
         })
         .then(response => {
-            navigate('/freeBoard');
+            if(response.ok){
+                navigate('/freeBoard');
+            }else{
+                response.json().then(data => alert(data.message));
+            }
         });
     }
     return (
