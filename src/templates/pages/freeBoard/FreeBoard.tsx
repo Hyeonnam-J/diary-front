@@ -6,7 +6,7 @@ import DefaultLayout from '../../layouts/DefaultLayout';
 import { Page, SERVER_IP } from "../../../Config";
 
 import { user } from "../../../auth/auth";
-import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard";
+import { FreeBoardPost, FreeBoardSort } from "../../../type/FreeBoard";
 
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoard.css';
@@ -18,10 +18,10 @@ const FreeBoard = () => {
 
     const [userId, setUserId] = useState<number | null>(0);
 
-    const [posts, setPosts] = useState<FreeBoardPosts[]>(() => []);
+    const [posts, setPosts] = useState<FreeBoardPost[]>(() => []);
 
     const [totalPostsCount, setTotalPostsCount] = useState(0);
-    const [totalPageCount, setTotalPageCount] = useState(0);
+    const [totalPagesCount, setTotalPagesCount] = useState(0);
 
     const [curPage, setCurPage] = useState(0);
 
@@ -42,7 +42,7 @@ const FreeBoard = () => {
 
     /* 비동기 때문에 나눠야 한다. */
     useEffect(() => {
-        setTotalPageCount(Math.ceil(totalPostsCount / Page.perPageSize));
+        setTotalPagesCount(Math.ceil(totalPostsCount / Page.perPageSize));
     }, [totalPostsCount]);
 
     useEffect(() => {
@@ -89,7 +89,7 @@ const FreeBoard = () => {
         else navigate('/signIn');
     }
 
-    const read = (post: FreeBoardPosts) => {
+    const read = (post: FreeBoardPost) => {
         navigate('/freeBoard/post/read', { state: { postId: post.id } });
     }
 
@@ -136,11 +136,11 @@ const FreeBoard = () => {
                 </div>
 
                 <div id='boardFooter'>
-                    {totalPageCount > 0 && (
+                    {totalPagesCount > 0 && (
                         <ReactPaginate
                             pageRangeDisplayed={Page.perBlockSize}
                             marginPagesDisplayed={1}
-                            pageCount={totalPageCount}
+                            pageCount={totalPagesCount}
                             onPageChange={ ({selected}) => setCurPage(selected)}
                             containerClassName={'pagination'}
                             activeClassName={'pageActive'}

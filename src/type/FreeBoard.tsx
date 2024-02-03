@@ -1,4 +1,4 @@
-export type FreeBoardPosts = {
+export type FreeBoardPost = {
     id: number,
     title: string,
     user: {

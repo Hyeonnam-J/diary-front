@@ -23,12 +23,26 @@ const FreeBoardPostDetailRead = () => {
     const [comments, setComments] = useState<FreeBoardComment[]>([]);
 
     const [totalCommentsCount, setTotalCommentsCount] = useState(0);
-    const [totalPageCount, setTotalPageCount] = useState(0);
+    const [totalPagesCount, setTotalPagesCount] = useState(0);
 
     const [curPage, setCurPage] = useState(0);
 
     const [replyingStates, setReplyingStates] = useState<Record<string, boolean>>({});
     const [updatingStates, setUpdatingStates] = useState<Record<string, boolean>>({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const cookie = getCookie();
+            if(cookie){
+                const accessToken = getAccessToken(cookie);
+                const { userId } = parseAccessToken(accessToken);
+
+                setUserId(userId);
+            }
+        }
+
+        fetchData();
+    }, [once]);
 
     const getTotalCommentsCount = useCallback(() => {
         fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
@@ -45,25 +59,11 @@ const FreeBoardPostDetailRead = () => {
     }, [postId, setTotalCommentsCount]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const cookie = getCookie();
-            if(cookie){
-                const accessToken = getAccessToken(cookie);
-                const { userId } = parseAccessToken(accessToken);
-
-                setUserId(userId);
-            }
-        }
-
-        fetchData();
-    }, [once]);
-
-    useEffect(() => {
         getTotalCommentsCount();
     }, [postId, getTotalCommentsCount]);    // ESLint 경고 때문에 의미 없이 함수를 의존성 배열에 넣음.
 
     useEffect(() => {
-        setTotalPageCount(Math.ceil(totalCommentsCount / Page.perPageSize));
+        setTotalPagesCount(Math.ceil(totalCommentsCount / Page.perPageSize));
     }, [totalCommentsCount]);
 
     useEffect(() => {
@@ -194,6 +194,13 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const showReplyCommentFrame = (commentId: string) => {
+        if(userId === 0){
+            alert('please sign in');
+            return;
+        }
+
+        initAllCommentFrame();
+
         setReplyingStates((prevStates) => ({
             [commentId]: !prevStates[commentId] || false,
         }));
@@ -205,9 +212,17 @@ const FreeBoardPostDetailRead = () => {
             return;
         }
 
+        initAllCommentFrame();
+        
         setUpdatingStates((prevStates) => ({
             [commentId]: !prevStates[commentId] || false,
         }));
+    }
+
+    // 선택된 것 외 다른 모든 답글, 업데이트 창을 닫는다.
+    const initAllCommentFrame = () => {
+        setReplyingStates({});
+        setUpdatingStates({});
     }
 
     const updateComment = (commentId: string) => {
@@ -287,7 +302,7 @@ const FreeBoardPostDetailRead = () => {
                 <div id='read-comment'>
                     {comments.map((comment) => {
                         const isCurrentUserComment = comment.user.id.toString() === String(userId);;
-                        const isReplyingToComment = replyingStates[comment.id] || false;
+                        const isReplyingComment = replyingStates[comment.id] || false;
                         const isUpdatingComment = updatingStates[comment.id] || false;
 
                         const paddingLeft = comment.parent ? 0 : 20;
@@ -320,10 +335,10 @@ const FreeBoardPostDetailRead = () => {
                                         <button onClick={ () => updateComment( comment.id.toString() ) } className={Button.primary}>submit</button>
                                     </>
                                 )}
-                                {isReplyingToComment && (
+                                {isReplyingComment && (
                                     <div className='read-comment-reply'>
                                         <textarea></textarea>
-                                        <button onClick = { () => replyComment(comment.id.toString()) } className={Button.primary}>submit</button>
+                                        <button onClick = { () => replyComment( comment.id.toString() ) } className={Button.primary}>submit</button>
                                     </div>
                                 )}
                             </div>
@@ -334,11 +349,11 @@ const FreeBoardPostDetailRead = () => {
                             <textarea></textarea>
                             <button onClick = { () => writeComment() } className={Button.primary}>submit</button>
                         </div>
-                        {totalPageCount > 0 && (
+                        {totalPagesCount > 0 && (
                             <ReactPaginate
                                 pageRangeDisplayed={Page.perBlockSize}
                                 marginPagesDisplayed={1}
-                                pageCount={totalPageCount}
+                                pageCount={totalPagesCount}
                                 onPageChange={({ selected }) => setCurPage(selected)}
                                 containerClassName={'pagination'}
                                 activeClassName={'pageActive'}
