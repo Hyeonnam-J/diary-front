@@ -12,8 +12,6 @@ export const user = async () => {
         credentials: "include",
     })
 
-    console.log(response.json());
-
     if(response.ok){
         result.auth = true;
     }else{
