@@ -17,7 +17,7 @@ const FreeBoard = () => {
     const once = true;
     const navigate = useNavigate();
 
-    const [userId, setUserId] = useState<number | null>(0);
+    const [memberId, setMemberId] = useState<number | null>(0);
 
     const [posts, setPosts] = useState<FreeBoardPosts[]>(() => []);
 
@@ -31,9 +31,9 @@ const FreeBoard = () => {
             const cookie = getCookie();
             if(cookie){
                 const accessToken = getAccessToken(cookie);
-                const { userId } = parseAccessToken(accessToken);
+                const { memberId } = parseAccessToken(accessToken);
 
-                setUserId(userId);
+                setMemberId(memberId);
             }
         }
 
@@ -76,7 +76,7 @@ const FreeBoard = () => {
     }
 
     const write = async () => {
-        if(userId === 0) {
+        if(memberId === 0) {
             alert('Please sign in');
             return;
         }
