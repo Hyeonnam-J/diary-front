@@ -125,7 +125,7 @@ const FreeBoard = () => {
                                         <td onClick={() => read(post)} className='title' style={{paddingLeft: `${paddingLeft}px`}}>
                                             {prefixTitle}{post.title}
                                         </td>
-                                        <td className='nick'>{post.user.nick}</td>
+                                        <td className='nick'>{post.member.nick}</td>
                                         <td>{post.createdDate}</td>
                                         <td>{post.viewCount}</td>
                                     </tr>
