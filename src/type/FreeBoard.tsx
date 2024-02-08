@@ -1,7 +1,7 @@
 export type FreeBoardPosts = {
     id: number,
     title: string,
-    user: {
+    member: {
         email: string,
         nick: string,
     },
@@ -14,7 +14,7 @@ export type FreeBoardPostRead = {
     id: number,
     title: string,
     content: string,
-    user: {
+    member: {
         id: number,
         email: string,
         nick: string,
@@ -26,7 +26,7 @@ export type FreeBoardPostRead = {
 
 export type FreeBoardComment = {
     id: number,
-    user: {
+    member: {
         id: number,
         email: string,
         nick: string,

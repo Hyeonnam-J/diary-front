@@ -112,7 +112,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const updatePost = async (post: FreeBoardPostRead | null) => {
-        if ((memberId || 0) !== post?.user.id) alert('You are not writer');
+        if ((memberId || 0) !== post?.member.id) alert('You are not writer');
 
         const result = await user();
         if(result.auth){
@@ -123,7 +123,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const deletePost = async (post: FreeBoardPostRead | null) => {
-        if ((memberId || 0) !== post?.user.id) alert('You are not writer');
+        if ((memberId || 0) !== post?.member.id) alert('You are not writer');
         
         const result = await user();
         if(result.auth){
@@ -269,7 +269,7 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const deleteComment = async (comment: FreeBoardComment) => {
-        if(memberId !== comment.user.id) {
+        if(memberId !== comment.member.id) {
             alert('Unauthorization');
             return;
         }
@@ -304,7 +304,7 @@ const FreeBoardPostDetailRead = () => {
                     <>
                         <div id='post-table'>
                             <p id='post-title'>{post.title}</p>
-                            <p>{post.user.nick}</p>
+                            <p>{post.member.nick}</p>
                             <div id='post-dataAndViewCount'>
                                 <p>{post.createdDate}</p>
                                 <p>view {post.viewCount}</p>
@@ -318,7 +318,7 @@ const FreeBoardPostDetailRead = () => {
                 
                 <div id='read-comment'>
                     {comments.map((comment) => {
-                        const isCurrentUserComment = comment.user.id.toString() === String(memberId);;
+                        const isCurrentUserComment = comment.member.id.toString() === String(memberId);;
                         const isReplyingComment = replyingStates[comment.id] || false;
                         const isUpdatingComment = updatingStates[comment.id] || false;
 
@@ -328,7 +328,7 @@ const FreeBoardPostDetailRead = () => {
                             <div key={comment.id} id={`read-comment-${comment.id}`} className='read-comment-container' style={{ paddingLeft: `${paddingLeft}px` }}>
                                 <div className='read-comment-header'>
                                     <div className='read-comment-userContainer'>
-                                        <p className='read-comment-user'>{comment.user?.nick}</p>
+                                        <p className='read-comment-user'>{comment.member?.nick}</p>
                                         <p className='read-comment-date'>{comment.createdDate}</p>
                                     </div>
                                     <div className='read-comment-btns'>
