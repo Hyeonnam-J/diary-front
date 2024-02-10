@@ -31,15 +31,16 @@
 }
 
 #nav-contents {
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
 #nav-contents > li{
     cursor: pointer;
     text-align: left;
     margin-top: 10px;
-    margin-left: 30px;
-    font-size: 1.3rem;
+    margin-left: 50px;
+    font-size: 1.1rem;
+    font-weight: lighter;
 }
 
 main {
