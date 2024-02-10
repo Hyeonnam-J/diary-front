@@ -20,28 +20,27 @@
     z-index: 999;
 }
 
-#nav-contents-box{
+#nav-contents-box {
     width: var(--nav-contents-width);
     height: 100vh;
-    background-color: var(--nav-container-color);
+    border-right: 1px solid var(--shadow-color);
 
     position: absolute;
     left: var(--nav-contents-width-minus);
     transition: left 0.3s ease-out; /* left 속성이 변경될 때 작동하는 코드 */
 }
 
-#nav-contents-box > #nav-greetings{
-    text-align: left;
-    margin: 50px 10px;
-    font-size: 3rem;
-    font-weight: bold;
+#nav-contents {
+    margin-top: 150px;
 }
 
 #nav-contents > li{
     cursor: pointer;
-    text-align: center;
-    margin: 10px 0;
-    font-size: 2rem;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 50px;
+    font-size: 1.1rem;
+    font-weight: lighter;
 }
 
 main {
