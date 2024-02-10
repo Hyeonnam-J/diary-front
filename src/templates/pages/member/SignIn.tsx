@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
-import '../../../stylesheets/pages/user/signIn.css';
+import '../../../stylesheets/pages/member/signIn.css';
 import SignLayout from "../../layouts/SignLayout";
 import { deleteCookie } from '../../../auth/cookie';
 
@@ -40,17 +40,24 @@ const SignIn = () => {
             sessionStorage.setItem('documentDotCookie', document.cookie);
 
             navigate('/');
+        }else if(response.status === 401){
+            const responseToInput = document.querySelector('#responseToInput') as HTMLElement;
+            if(responseToInput){
+                responseToInput.innerHTML = "Email or password is incorrect";
+            }
         }
     }
+
     return (
         <SignLayout>
             <div id='signInFrame' className={Layout.centerFrame}>
-
                 <div id="signInFrame-inputs">
                     <p>Email</p>
                     <input type="text" name="email"></input>
                     <p>Password</p>
-                    <input type="text" name="password"></input>
+                    <input type="password" name="password"></input>
+
+                    <p id='responseToInput'></p>
                 </div>
 
                 <div id='signInFrame-btns'>

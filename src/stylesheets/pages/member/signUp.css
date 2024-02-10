@@ -48,11 +48,11 @@
 }
 
 #submitList .valid > span {
-    color: green;
+    color: var(--valid-color);
 }
 
 #submitList .invalid > span {
-    color: red;
+    color: var(--invalid-color);
 }
 
 #submitList label > div {
