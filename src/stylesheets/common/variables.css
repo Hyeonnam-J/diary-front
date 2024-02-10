@@ -12,7 +12,7 @@
     --my-contents-box-height: 200px;
 
     --signIn-frame-width: 500px;
-    --signIn-frame-height: 400px;
+    --signIn-frame-height: 380px;
     --signUp-frame-width: 300px;
     --signUp-frame-height: 1100px;
 
@@ -55,6 +55,9 @@
     --text-ref-color: #CCCCCC;
     --thead-color: rgba(230, 230, 230, 0.5);
     --seperator-color: rgba(200, 200, 200, 0.5);
+
+    --valid-color: green;
+    --invalid-color: red;
 
     --input-size-text: 1.1rem;
 }

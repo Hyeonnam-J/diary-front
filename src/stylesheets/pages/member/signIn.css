@@ -9,7 +9,8 @@
     justify-content: center;
 
     padding: 10px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: lighter;
 }
 
 #signInFrame {
@@ -20,7 +21,20 @@
     box-sizing: border-box;
 }
 
-#signInFrame-inputs {}
+#signInFrame-inputs {
+    position: relative;
+}
+
+#responseToInput{
+    position: absolute;
+
+    top: var(--signIn-frame-height);
+    left: 0;
+
+    font-size: 1rem;
+    font-weight: lighter;
+    color: var(--invalid-color);
+}
 
 #signInFrame-inputs input{
     border: 1px solid var(--primary-color);
@@ -49,6 +63,7 @@
 
 #signInFrame-sub p{
     font-size: 1rem;
+    font-weight: lighter;
 }
 
 #staySignIn-label {

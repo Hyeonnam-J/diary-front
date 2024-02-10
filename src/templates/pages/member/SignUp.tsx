@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
-import '../../../stylesheets/pages/user/signUp.css';
+import '../../../stylesheets/pages/member/signUp.css';
 import SignLayout from "../../layouts/SignLayout";
 
 const SignUp = () => {
