@@ -20,8 +20,8 @@ const My: React.FC = () => {
     const [nick, setNick] = useState('');
     
     const signOut = () => {
-        setSignedIn(!isSignedIn);
-        setDropdownVisible(!isDropdownVisible);
+        setSignedIn(false);
+        setDropdownVisible(false);
         if (getCookie()) deleteCookie();
         sessionStorage.clear();
         localStorage.clear();
@@ -48,8 +48,7 @@ const My: React.FC = () => {
             setSignedIn(!!nick);
             setNick(nick || '');    
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [signOut]);
+    }, []);
     
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
