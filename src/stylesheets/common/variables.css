@@ -11,8 +11,8 @@
     --my-contents-box-width: 150px;
     --my-contents-box-height: 200px;
 
-    --signIn-frame-width: 500px;
-    --signIn-frame-height: 380px;
+    --signIn-frame-contents-width: 500px;
+    --signIn-frame-contents-height: 380px;
     --signUp-frame-width: 300px;
     --signUp-frame-height: 1100px;
 

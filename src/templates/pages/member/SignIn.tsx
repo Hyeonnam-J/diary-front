@@ -43,7 +43,7 @@ const SignIn = () => {
         }else if(response.status === 401){
             const responseToInput = document.querySelector('#responseToInput') as HTMLElement;
             if(responseToInput){
-                responseToInput.innerHTML = "Email or password is incorrect";
+                responseToInput.innerHTML = 'Email or password is incorrect';
             }
         }
     }
@@ -51,26 +51,27 @@ const SignIn = () => {
     return (
         <SignLayout>
             <div id='signInFrame' className={Layout.centerFrame}>
-                <div id="signInFrame-inputs">
-                    <p>Email</p>
-                    <input type="text" name="email"></input>
-                    <p>Password</p>
-                    <input type="password" name="password"></input>
+                <div id='signInFrame-contents'>
+                    <div id="signInFrame-inputs">
+                        <p>Email</p>
+                        <input type="text" name="email"></input>
+                        <p>Password</p>
+                        <input type="password" name="password"></input>
+                    </div>
 
-                    <p id='responseToInput'></p>
-                </div>
-
-                <div id='signInFrame-btns'>
-                    <button className={ Button.primary } onClick={ requestSignIn }>Sign In</button>
-                    <div id='signInFrame-sub'>
-                        <label id='staySignIn-label'>
-                            <input type="checkbox" name="staySignedIn" />
-                            <p>Stay signed in</p>
-                        </label>
-                        <p id='findPassword'>Find password</p>
+                    <div id='signInFrame-btns'>
+                        <button className={ Button.primary } onClick={ requestSignIn }>Sign In</button>
+                        <div id='signInFrame-sub'>
+                            <label id='staySignIn-label'>
+                                <input type="checkbox" name="staySignedIn" />
+                                <p>Stay signed in</p>
+                            </label>
+                            <p id='findPassword'>Find password</p>
+                        </div>
                     </div>
                 </div>
 
+                <p id='responseToInput' />
             </div>
         </SignLayout>
     )
