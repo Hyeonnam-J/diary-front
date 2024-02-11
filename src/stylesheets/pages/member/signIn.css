@@ -1,7 +1,15 @@
 @import '../../common/variables.css';
 
-#signInFrame,
-#signInFrame * {
+#signInFrame-contents {
+    width: var(--signIn-frame-contents-width);
+    height: var(--signIn-frame-contents-height);
+
+    border: 1px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+#signInFrame-contents,
+#signInFrame-contents * {
     display: flex;
     flex: 1;
 
@@ -11,29 +19,6 @@
     padding: 10px;
     font-size: 1.2rem;
     font-weight: lighter;
-}
-
-#signInFrame {
-    width: var(--signIn-frame-width);
-    height: var(--signIn-frame-height);
-
-    border: 1px solid var(--border-color);
-    box-sizing: border-box;
-}
-
-#signInFrame-inputs {
-    position: relative;
-}
-
-#responseToInput{
-    position: absolute;
-
-    top: var(--signIn-frame-height);
-    left: 0;
-
-    font-size: 1rem;
-    font-weight: lighter;
-    color: var(--invalid-color);
 }
 
 #signInFrame-inputs input{
@@ -86,4 +71,14 @@
 #findPassword:hover{
     text-decoration: underline;
     cursor: pointer;
+}
+
+#responseToInput{
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1rem;
+    font-weight: lighter;
+    color: var(--invalid-color);
+    text-align: left;
+    padding-left: 10px;
 }
