@@ -12,8 +12,6 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
 
 const FreeBoardPostDetailRead = () => {
-    const once = true;
-
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -43,9 +41,10 @@ const FreeBoardPostDetailRead = () => {
         }
 
         fetchData();
-    }, [once]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    const getTotalCommentsCount = useCallback( async () => {
+    const getTotalCommentsCount = async () => {
         const response = await fetch(`${SERVER_IP}/freeBoard/comments/totalCount/${postId}`, {
             method: 'GET',
             credentials: "include",
@@ -55,23 +54,27 @@ const FreeBoardPostDetailRead = () => {
             const body: PlainDataResponse<number> = await response.json();
             setTotalCommentsCount(body.data);
         }
-    }, [postId, setTotalCommentsCount]);
+    };
 
     useEffect(() => {
         getTotalCommentsCount();
-    }, [postId, getTotalCommentsCount]);    // ESLint 경고 때문에 의미 없이 함수를 의존성 배열에 넣음.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
+    // 동기적이지만 렌더링 시간 때문에 set 전의 값을 사용하므로 이렇게 나눠야 한다.
     useEffect(() => {
         setTotalPagesCount(Math.ceil(totalCommentsCount / Page.perPageSize));
     }, [totalCommentsCount]);
 
     useEffect(() => {
         getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
-    }, [curPage, postId]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [curPage]);
 
     useEffect(() => {
         getPost(postId);
-    }, [postId]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const getComments = async (uri: string) => {
         const response = await fetch(SERVER_IP + uri, {
@@ -166,7 +169,7 @@ const FreeBoardPostDetailRead = () => {
         })
 
         if(response.ok){
-            getTotalCommentsCount();
+            await getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             const textarea = document.querySelector<HTMLTextAreaElement>('#read-comment-write textarea');
             if (textarea) textarea.value = '';
@@ -268,6 +271,7 @@ const FreeBoardPostDetailRead = () => {
         initAllCommentFrame();
     }
 
+    // todo: react pagination set selected value
     const deleteComment = async (comment: FreeBoardComment) => {
         if(memberId !== comment.member.id) {
             alert('Unauthorization');

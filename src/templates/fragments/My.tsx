@@ -8,7 +8,6 @@ import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
 
 const My: React.FC = () => {
-    const once = true;
     const navigate = useNavigate();
 
     // React Hook인 useState를 사용하여 새로운 상태 변수를 생성
@@ -19,6 +18,15 @@ const My: React.FC = () => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [isSignedIn, setSignedIn] = useState(false);
     const [nick, setNick] = useState('');
+    
+    const signOut = () => {
+        setSignedIn(!isSignedIn);
+        setDropdownVisible(!isDropdownVisible);
+        if (getCookie()) deleteCookie();
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate('/');
+    }
 
     useEffect(() => {
         // 새로고침이면,
@@ -40,20 +48,12 @@ const My: React.FC = () => {
             setSignedIn(!!nick);
             setNick(nick || '');    
         }
-    }, [once]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [signOut]);
     
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
     };
-
-    const signOut = () => {
-        setSignedIn(!isSignedIn);
-        setDropdownVisible(!isDropdownVisible);
-        if (getCookie()) deleteCookie();
-        sessionStorage.clear();
-        localStorage.clear();
-        navigate('/');
-    }
 
     return (
         <div id='my'>

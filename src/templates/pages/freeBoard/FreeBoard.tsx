@@ -14,7 +14,6 @@ import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cooki
 import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
 
 const FreeBoard = () => {
-    // const once = true;
     const navigate = useNavigate();
 
     const [memberId, setMemberId] = useState<number | null>(0);
@@ -42,7 +41,7 @@ const FreeBoard = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /* 비동기 때문에 나눠야 한다. */
+    // 동기적이지만 렌더링 시간 때문에 set 전의 값을 사용하므로 이렇게 나눠야 한다.
     useEffect(() => {
         setTotalPagesCount(Math.ceil(totalPostsCount / Page.perPageSize));
     }, [totalPostsCount]);
