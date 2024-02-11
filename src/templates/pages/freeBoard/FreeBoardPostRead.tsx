@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Page, SERVER_IP } from "../../../Config";
@@ -8,8 +8,8 @@ import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
 import { FreeBoardComment, FreeBoardPostRead } from "../../../type/FreeBoard";
-import DefaultLayout from "../../layouts/DefaultLayout";
 import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const FreeBoardPostDetailRead = () => {
     const once = true;
