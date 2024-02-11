@@ -8,7 +8,6 @@ import '../../stylesheets/common/common.css';
 import '../../stylesheets/fragments/my.css';
 
 const My: React.FC = () => {
-    const once = true;
     const navigate = useNavigate();
 
     // React Hook인 useState를 사용하여 새로운 상태 변수를 생성
@@ -19,8 +18,28 @@ const My: React.FC = () => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [isSignedIn, setSignedIn] = useState(false);
     const [nick, setNick] = useState('');
+    
+    const signOut = () => {
+        setSignedIn(false);
+        setDropdownVisible(false);
+        if (getCookie()) deleteCookie();
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate('/');
+    }
 
     useEffect(() => {
+        // 새로고침이면,
+        const isRefresh = sessionStorage.getItem('isRefresh');
+        if(isRefresh === 'true'){
+            // isStay가 true면 쿠키를 안 지우니 살아있지만 false면 지워지니 여기 시작 탬플릿에서 다시 할당.
+            const isStay = localStorage.getItem('isStay');
+            if(isStay === 'false'){
+                const documentDotCookie = sessionStorage.getItem('documentDotCookie');
+                if(documentDotCookie) document.cookie = documentDotCookie;
+            }
+        }
+
         const cookie = getCookie();
         if(cookie){
             const accessToken = getAccessToken(cookie);
@@ -29,20 +48,11 @@ const My: React.FC = () => {
             setSignedIn(!!nick);
             setNick(nick || '');    
         }
-    }, [once]);
+    }, []);
     
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
     };
-
-    const signOut = () => {
-        setSignedIn(!isSignedIn);
-        setDropdownVisible(!isDropdownVisible);
-        if (getCookie()) deleteCookie();
-        sessionStorage.clear();
-        localStorage.clear();
-        navigate('/');
-    }
 
     return (
         <div id='my'>
@@ -52,7 +62,7 @@ const My: React.FC = () => {
                     <ul className='my-contents' style={{ display: !isSignedIn ? 'block' : 'none' }}>
                         <li><Link to="/">Home</Link></li>
                         <span className='separator'></span>
-                        <li><Link to="/signIn">Sign In</Link></li>
+                        <li id='li-signIn'><Link to="/signIn">Sign In</Link></li>
                         <li><Link to="/signUp">Sign Up</Link></li>
                     </ul>
                     <ul className='my-contents' style={{ display: isSignedIn ? 'block' : 'none' }}>
