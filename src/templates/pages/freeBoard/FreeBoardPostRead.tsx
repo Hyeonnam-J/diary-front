@@ -4,9 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Page, SERVER_IP } from "../../../Config";
 import { user } from "../../../auth/auth";
 import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
+import { responseHandler } from '../../../handler/responseHandler';
 import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostRead.css';
+import { Auth } from '../../../type/Auth';
 import { FreeBoardComment, FreeBoardPostRead } from "../../../type/FreeBoard";
 import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -106,43 +108,33 @@ const FreeBoardPostDetailRead = () => {
             return;
         }
         
-        const result = await user();
-        if(result.auth){
+        const auth = await user();
+        if(auth.result){
             if (post) navigate('/freeBoard/post/reply', { state: { postId: post.id } });
-        }else{
-            alert(result.message);
         }
     }
 
     const updatePost = async (post: FreeBoardPostRead | null) => {
         if ((memberId || 0) !== post?.member.id) alert('You are not writer');
 
-        const result = await user();
-        if(result.auth){
+        const auth = await user();
+        if(auth.result){
             navigate('/freeBoard/post/update', { state: { post: post } });
-        }else{
-            alert(result.message);
         }
     }
 
     const deletePost = async (post: FreeBoardPostRead | null) => {
         if ((memberId || 0) !== post?.member.id) alert('You are not writer');
         
-        const result = await user();
-        if(result.auth){
+        const auth_user: Auth = await user();
+        if(auth_user.result){
             const response = await fetch(`${SERVER_IP}/freeBoard/post/delete/${postId}`, {
                 method: 'DELETE',
                 credentials: "include",
             })
 
-            if(response.status === 403){
-                alert('Replies exist');
-                return;
-            }else{
-                navigate('/freeBoard');
-            }
-        }else{
-            alert(result.message);
+            const auth_delete: Auth = await responseHandler(response);
+            if(auth_delete.result) navigate('/freeBoard');
         }
     }
 
@@ -168,7 +160,8 @@ const FreeBoardPostDetailRead = () => {
             body: JSON.stringify(data),
         })
 
-        if(response.ok){
+        const auth: Auth = await responseHandler(response);
+        if(auth.result){
             await getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             const textarea = document.querySelector<HTMLTextAreaElement>('#read-comment-write textarea');
@@ -198,7 +191,8 @@ const FreeBoardPostDetailRead = () => {
             body: JSON.stringify(data),
         })
 
-        if(response.ok){
+        const auth: Auth = await responseHandler(response);
+        if(auth.result){
             getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             const textarea = document.querySelector<HTMLTextAreaElement>('#read-comment-reply textarea');
@@ -262,7 +256,8 @@ const FreeBoardPostDetailRead = () => {
             body: JSON.stringify(data),
         })
 
-        if(response.ok){
+        const auth: Auth = await responseHandler(response);
+        if(auth.result){
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
             updateTextarea.value = '';
             showUpdateCommentFrame(commentId);
@@ -271,7 +266,6 @@ const FreeBoardPostDetailRead = () => {
         initAllCommentFrame();
     }
 
-    // todo: react pagination set selected value
     const deleteComment = async (comment: FreeBoardComment) => {
         if(memberId !== comment.member.id) {
             alert('Unauthorization');
@@ -281,11 +275,10 @@ const FreeBoardPostDetailRead = () => {
         const response = await fetch(`${SERVER_IP}/freeBoard/comment/delete/${comment.id}`, {
             method: 'DELETE',
             credentials: "include",
-        })
+        });
 
-        if(response.status === 403){
-            alert('Replies exist');
-        }else{
+        const auth: Auth = await responseHandler(response);
+        if(auth.result){
             getTotalCommentsCount();
             getComments(`/freeBoard/comments/${postId}?page=${curPage}`);
         }
