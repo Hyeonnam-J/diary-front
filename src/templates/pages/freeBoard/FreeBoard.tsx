@@ -8,9 +8,9 @@ import { Page, SERVER_IP } from "../../../Config";
 import { user } from "../../../auth/auth";
 import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard";
 
+import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoard.css';
-import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cookie';
 import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
 
 const FreeBoard = () => {
@@ -82,11 +82,9 @@ const FreeBoard = () => {
             return;
         }
         
-        const result = await user();
-        if(result.auth){
+        const auth = await user();
+        if(auth.result){
             navigate('/freeBoard/post/write');
-        }else{
-            alert(result.message);
         }
     }
 

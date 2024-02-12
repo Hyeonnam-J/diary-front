@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
+import { responseHandler } from '../../../handler/responseHandler';
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoardPostUpdate.css';
+import { Auth } from '../../../type/Auth';
 import { FreeBoardPostRead } from "../../../type/FreeBoard";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { ErrorResponse } from '../../../type/Response';
 
 const FreeBoardPostUpdate = () => {
     const navigate = useNavigate();
@@ -31,11 +32,9 @@ const FreeBoardPostUpdate = () => {
             body: JSON.stringify(data),
         })
 
-        if(response.ok){
+        const auth: Auth = await responseHandler(response);
+        if(auth.result){
             navigate('/freeBoard');
-        }else{
-            const body: ErrorResponse = await response.json();
-            alert(body.message);
         }
     }
     
