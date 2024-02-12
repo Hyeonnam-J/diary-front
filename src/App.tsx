@@ -4,8 +4,6 @@ import { deleteCookie } from './auth/cookie';
 import routes, { RouteConfig } from './templates/RouteConfig';
 
 function App() {
-    const once = true;
-
     /**
      * isStay === true, 세션 스토리지 신경 쓸 필요 없다. 로직 신경 쓸 필요 없다.
      * 
@@ -31,7 +29,8 @@ function App() {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, [once]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         // URL 변경을 React-Router가 감지.
