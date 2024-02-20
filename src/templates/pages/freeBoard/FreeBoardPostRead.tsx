@@ -55,6 +55,8 @@ const FreeBoardPostDetailRead = () => {
         if(response.ok){
             const body: PlainDataResponse<number> = await response.json();
             setTotalCommentsCount(body.data);
+        }else{
+            responseHandler(response);
         }
     };
 
@@ -87,6 +89,8 @@ const FreeBoardPostDetailRead = () => {
         if(response.ok){
             const body: ListDataResponse<FreeBoardComment> = await response.json();
             setComments(body.data);
+        }else{
+            responseHandler(response);
         }
     }
 
@@ -99,6 +103,8 @@ const FreeBoardPostDetailRead = () => {
         if(response.ok){
             const body: PlainDataResponse<FreeBoardPostRead> = await response.json();
             setPost(body.data);
+        }else{
+            responseHandler(response);
         }
     }
 

@@ -23,6 +23,8 @@ export const responseHandler = async (response: Response): Promise<Auth> => {
             auth.message = data.message;
         }else if(response.status === 403){
             auth.message = 'Replies exist';
+        }else if(response.status === 404){
+            auth.message = 'Invalid request';
         }
 
         alert(auth.message);

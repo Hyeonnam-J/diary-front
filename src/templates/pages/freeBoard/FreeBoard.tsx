@@ -12,6 +12,7 @@ import { getAccessToken, getCookie, parseAccessToken } from '../../../auth/cooki
 import Button from "../../../stylesheets/modules/button.module.css";
 import '../../../stylesheets/pages/freeBoard/freeBoard.css';
 import { ListDataResponse, PlainDataResponse } from '../../../type/Response';
+import { responseHandler } from '../../../handler/responseHandler';
 
 const FreeBoard = () => {
     // const once = true;
@@ -61,6 +62,8 @@ const FreeBoard = () => {
         if(response.ok){
             const body: PlainDataResponse<number> = await response.json();
             setTotalPostsCount(body.data);
+        }else{
+            responseHandler(response);
         }
     }
 
@@ -73,6 +76,8 @@ const FreeBoard = () => {
         if(response.ok){
             const body: ListDataResponse<FreeBoardPosts> = await response.json();
             setPosts(body.data);
+        }else{
+            responseHandler(response);
         }
     }
 
