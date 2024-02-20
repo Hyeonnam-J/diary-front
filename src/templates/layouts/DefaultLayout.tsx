@@ -32,6 +32,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
             <div id='nav-contents-box' style={{ left: isNavOpen ? '0' : navWidthMinus }}>
                 <ul id='nav-contents'>
                     <li><Link to="/freeBoard">free board</Link></li>
+                    <li>preparing...</li>
                 </ul>
             </div>
 
