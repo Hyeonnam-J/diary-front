@@ -9,11 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '14'
-
       - name: Install dependencies
         run: npm install
 
@@ -23,7 +18,7 @@ jobs:
       - name: make a directory
         run: mkdir -p deploy
 
-      - name: copy build files  #
+      - name: copy build files
         run: cp -r build/* ./deploy
 
       - name: copy appspec.yml, deploy.sh
