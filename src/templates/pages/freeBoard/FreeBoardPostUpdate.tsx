@@ -13,6 +13,10 @@ const FreeBoardPostUpdate = () => {
 
     const post: FreeBoardPostRead = location?.state?.post;
 
+    const back = () => {
+        navigate('/freeBoard');
+    }
+
     const update = async () => {
         const title = document.querySelector('input[name="update-title"]') as HTMLInputElement;
         const content = document.querySelector('textarea[name="update-content"]') as HTMLInputElement;
@@ -43,6 +47,7 @@ const FreeBoardPostUpdate = () => {
             <div id='update-frame'>
                 {/* <div id='update-space'></div> */}
                 <div id='update-header'>
+                    <button onClick={ back } className={ Button.primaryOutline }>back</button>
                     <button onClick={update} className={Button.primary}>submit</button>
                 </div>
                 <input type="text" id='update-title' name="update-title" defaultValue={post?.title || ''} />

@@ -10,11 +10,10 @@
 } */
 
 #update-header {
-    height: 10%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-end;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 #update-title {

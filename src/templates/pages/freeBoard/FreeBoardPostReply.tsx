@@ -12,6 +12,10 @@ const FreeBoardPostReply = () => {
 
     const postId = location?.state?.postId;
 
+    const back = () => {
+        navigate('/freeBoard');
+    }
+
     const reply = async () => {
         const title = document.querySelector('input[name="reply-title"]') as HTMLInputElement;
         const content = document.querySelector('textarea[name="reply-content"]') as HTMLInputElement;
@@ -42,6 +46,7 @@ const FreeBoardPostReply = () => {
             <div id='reply-frame'>
                 {/* <div id='reply-space'></div> */}
                 <div id='reply-header'>
+                    <button onClick={ back } className={ Button.primaryOutline }>back</button>
                     <button onClick={ reply } className={ Button.primary }>submit</button>
                 </div>
                 <input type="text" id='reply-title' name="reply-title"/>

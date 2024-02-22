@@ -2,35 +2,28 @@
 
 .container{
     width: 100%;
-    height: var(--container-height);
+    height: 100%;
 
-    /* overflow-y: auto;
-    overflow-x: hidden; */
     overflow: auto;
-
-    /* 컨테이너 아래 (nav-contents-box), main 가운데 정렬 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 #header {
-    position: relative;
-    transition: left 0.3s ease-out; /* left 속성이 변경될 때 작동하는 코드, 부드러운 효과 */
+    transition: left 0.2s ease-out; /* left 속성이 변경될 때 작동하는 코드, 부드러운 효과 */
 }
 
 #nav-contents-box {
     width: var(--nav-contents-width);
-    height: 100vh;
+    height: 100%;
+
     border-right: 1px solid var(--shadow-color);
 
-    position: absolute;
+    position: relative;
     left: var(--nav-contents-width-minus);
-    transition: left 0.3s ease-out;
+    transition: left 0.2s ease-out;
 }
 
-#nav-contents {
-    margin-top: 150px;
+#nav-contents-box-space {
+    height: 150px;
 }
 
 #nav-contents > li{
@@ -42,9 +35,19 @@
     font-weight: lighter;
 }
 
+#main-wrap{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: left 0.2s ease-out;
+}
+
+#main-wrap > * {
+    margin: 0 auto;
+}
+
 main {
-    position: relative;
     width: var(--main-width);
-    height: var(--main-height);
-    transition: left 0.3s ease-out;
 }
