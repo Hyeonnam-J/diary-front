@@ -9,7 +9,7 @@
     height: var(--freeBoard-header-height);
     display: flex;
     justify-content: flex-end;
-    align-items: end;
+    align-items: flex-end;
 
     margin-bottom: 5px;
 }
