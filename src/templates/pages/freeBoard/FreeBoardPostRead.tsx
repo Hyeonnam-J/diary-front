@@ -296,7 +296,7 @@ const FreeBoardPostDetailRead = () => {
 
     return (
         <DefaultLayout>
-            <div id='read-frame' className={Layout.centerFrame}>
+            <div id='read-frame' className={Layout.centerFrame_width}>
                 <div id='read-header'>
                     <button onClick={() => replyPost(post)} className={Button.primary}>reply</button>
                     <button onClick={() => updatePost(post)} className={Button.primary}>update</button>

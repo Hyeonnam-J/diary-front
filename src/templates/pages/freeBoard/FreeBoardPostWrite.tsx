@@ -9,6 +9,10 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 const FreeBoardPostWrite = () => {
     const navigate = useNavigate();
 
+    const back = () => {
+        navigate('/freeBoard');
+    }
+
     const write = async () => {
         const title = document.querySelector('input[name="write-title"]') as HTMLInputElement;
         const content = document.querySelector('textarea[name="write-content"]') as HTMLInputElement;
@@ -38,6 +42,7 @@ const FreeBoardPostWrite = () => {
             <div id='write-frame'>
                 {/* <div id='write-space'></div> */}
                 <div id='write-header'>
+                    <button onClick={ back } className={ Button.primaryOutline }>back</button>
                     <button onClick={ write } className={ Button.primary }>submit</button>
                 </div>
                 <input type="text" id='write-title' name="write-title"/>

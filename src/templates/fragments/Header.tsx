@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from './Logo';
 import My from './My';
 import Nav from './Nav';
@@ -10,17 +10,12 @@ interface NavProps {
 }
 
 const Header: React.FC<NavProps> = ({ navClick }) => {
-    const [isNavOpen, setNavOpen] = useState(false);
-
     const callback_fromNav = () => {
         navClick();
-        setNavOpen(prevState => !prevState);
     };
 
-    const navWidth = 'var(--nav-contents-width)'
-
     return (
-        <div id='header' style={{ left: isNavOpen ? `${navWidth}` : '0' }}>
+        <div id='header'>
             <Nav navClick={callback_fromNav} />
             <Logo />
             <My />

@@ -21,18 +21,23 @@ const Layout: React.FC<LayoutProps> = (props) => {
 
     return (
         <div className='container'>
-            <Header navClick={callback_fromHeader} />
-            
             <div id='nav-contents-box' style={{ left: isNavOpen ? '0' : navWidthMinus }}>
-                <h3 id='nav-greetings'>Welcome</h3>
+                <div id='nav-contents-box-space' />
+                
                 <ul id='nav-contents'>
                     <li><Link to="/freeBoard">free board</Link></li>
+                    <li>preparing...</li>
                 </ul>
             </div>
 
-            <main style={{ left: isNavOpen ? navWidth : '0' }}>
-                {props.children}
-            </main>
+            <div id='main-wrap' style={{ left: isNavOpen ? navWidth : '0' }}>
+                <Header navClick={callback_fromHeader} />
+                <main>
+                    <div>
+                        {props.children}
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }
