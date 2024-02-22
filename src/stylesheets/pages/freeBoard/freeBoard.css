@@ -7,17 +7,11 @@
 
 #boardHeader {
     height: var(--freeBoard-header-height);
-}
-
-#boardHeader-top {
-    height: 70%;
-}
-
-#boardHeader-bottom {
-    height: 30%;
     display: flex;
-    justify-content: end;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: end;
+
+    margin-bottom: 5px;
 }
 
 #boardSection {

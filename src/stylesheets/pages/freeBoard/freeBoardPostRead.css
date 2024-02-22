@@ -6,7 +6,7 @@
 }
 
 #read-header {
-    height: var(--freeBoard-post-read-header-height);
+    /* height: var(--freeBoard-post-read-header-height); */
 
     display: flex;
     justify-content: end;

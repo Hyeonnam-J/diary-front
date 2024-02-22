@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
 import Button from "../../../stylesheets/modules/button.module.css";
+import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/member/signUp.css';
-import SignLayout from "../../layouts/SignLayout";
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -245,8 +246,8 @@ const SignUp = () => {
     }
 
     return (
-        <SignLayout>
-            <div id='signUpFrame'>
+        <DefaultLayout>
+            <div id='signUpFrame' className={Layout.centerFrame_width}>
                 <div id='submitList'>
                     <label className={inputValidations.email ? 'valid' : 'invalid'}>
                         <div>
@@ -293,7 +294,7 @@ const SignUp = () => {
                 <button id='terms' className={ Button.primaryOutline }>Terms of Service</button>
                 <button id='submit-btn' className={ Button.primary } onClick={ requestSignUp }>Sign up</button>
             </div>
-        </SignLayout>
+        </DefaultLayout>
     )
 }
 

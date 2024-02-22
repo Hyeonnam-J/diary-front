@@ -101,10 +101,7 @@ const FreeBoard = () => {
         <DefaultLayout>
             <div id='boardFrame'>
                 <div id='boardHeader'>
-                    <div id='boardHeader-top'></div>
-                    <div id='boardHeader-bottom'>
-                        <button className={ Button.primary } onClick={ write }>write</button>
-                    </div>
+                    <button className={ Button.primary } onClick={ write }>write</button>
                 </div>
 
                 <div id='boardSection'>

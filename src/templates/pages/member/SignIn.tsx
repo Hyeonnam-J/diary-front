@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { SERVER_IP } from "../../../Config";
+import { deleteCookie } from '../../../auth/cookie';
 import Button from "../../../stylesheets/modules/button.module.css";
 import Layout from "../../../stylesheets/modules/layout.module.css";
 import '../../../stylesheets/pages/member/signIn.css';
-import SignLayout from "../../layouts/SignLayout";
-import { deleteCookie } from '../../../auth/cookie';
+import DefaultLayout from "../../layouts/DefaultLayout";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -49,8 +49,8 @@ const SignIn = () => {
     }
 
     return (
-        <SignLayout>
-            <div id='signInFrame' className={Layout.centerFrame}>
+        <DefaultLayout>
+            <div id='signInFrame' className={Layout.centerFrame_width}>
                 <div id='signInFrame-contents'>
                     <div id="signInFrame-inputs">
                         <p>Email</p>
@@ -73,7 +73,7 @@ const SignIn = () => {
 
                 <p id='responseToInput' />
             </div>
-        </SignLayout>
+        </DefaultLayout>
     )
 }
 

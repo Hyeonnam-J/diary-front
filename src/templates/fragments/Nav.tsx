@@ -28,7 +28,6 @@ const Nav: React.FC<NavProps> = ({ navClick }) => {
     return (
         <nav>
             <div id='nav-container' onClick={sendToHeaderCallback}>
-            {/* <div id='nav-container'> */}
                 <img src={ isMenuOpen ? exit : menu } alt='menu' />
             </div>
         </nav>

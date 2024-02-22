@@ -1,7 +1,6 @@
-import React, { ReactNode, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import My from './My';
+import React, { useState } from 'react';
 import Logo from './Logo';
+import My from './My';
 import Nav from './Nav';
 
 import '../../stylesheets/fragments/header.css';
@@ -11,19 +10,20 @@ interface NavProps {
 }
 
 const Header: React.FC<NavProps> = ({ navClick }) => {
+    const [isNavOpen, setNavOpen] = useState(false);
+
     const callback_fromNav = () => {
         navClick();
+        setNavOpen(prevState => !prevState);
     };
 
+    const navWidth = 'var(--nav-contents-width)'
+
     return (
-        <div id='header'>
-            <div id='header-left'>
-                <Logo />
-                <Nav navClick={callback_fromNav} />
-            </div>
-            <div id='header-right'>
-                <My />
-            </div>
+        <div id='header' style={{ left: isNavOpen ? `${navWidth}` : '0' }}>
+            <Nav navClick={callback_fromNav} />
+            <Logo />
+            <My />
         </div>
     )
 }
