@@ -17,8 +17,8 @@ export const parseAccessToken = (accessToken: string) => {
 }
 
 export const deleteCookie = () => {
-    document.cookie = 'jws=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=my-diary.life; path=/;';
-    // document.cookie = 'jws=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=localhost; path=/;';
+    // document.cookie = 'jws=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=my-diary.life; path=/;';
+    document.cookie = 'jws=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=localhost; path=/;';
 }
 
 function parseJwt (token: string) {

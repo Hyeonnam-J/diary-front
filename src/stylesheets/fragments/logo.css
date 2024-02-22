@@ -1,0 +1,8 @@
+@import '../common/variables.css';
+
+#logo{
+    width: var(--logo-width);
+    height: var(--logo-height);
+
+    border: 1px solid red;
+}

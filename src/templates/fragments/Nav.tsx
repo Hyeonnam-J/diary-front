@@ -17,16 +17,18 @@ interface NavProps {
 // FC -> Functional Component
 // props -> properties. 데이터를 전달하는 데 사용되는 객체.
 const Nav: React.FC<NavProps> = ({ navClick }) => {
+// const Nav: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const sendNavClickToDefaultLayout = () => {
-        navClick();  // DefaultLayout 제어를 위한 메서드
+    const sendToHeaderCallback = () => {
+        navClick();  // 헤더 콜백.
         setIsMenuOpen(prevState => !prevState); // setIsMenuOpen(!isMenuOpen);
     };
   
     return (
         <nav>
-            <div id='nav-container' onClick={sendNavClickToDefaultLayout}>
+            <div id='nav-container' onClick={sendToHeaderCallback}>
+            {/* <div id='nav-container'> */}
                 <img src={ isMenuOpen ? exit : menu } alt='menu' />
             </div>
         </nav>
