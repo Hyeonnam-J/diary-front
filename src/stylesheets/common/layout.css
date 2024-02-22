@@ -1,26 +1,22 @@
 @import '../common/variables.css';
 
 .container{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: var(--container-height);
 
-    /* 자신의 영역보다 더 큰 수치의 자식 요소가 들어올 때 부모의 영역도 같이 넓어짐 */
+    /* overflow-y: auto;
+    overflow-x: hidden; */
     overflow: auto;
 
     /* 컨테이너 아래 (nav-contents-box), main 가운데 정렬 */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #header {
-    position: absolute;
-    
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
-
-    background-color: aqua;
+    position: relative;
+    transition: left 0.3s ease-out; /* left 속성이 변경될 때 작동하는 코드, 부드러운 효과 */
 }
 
 #nav-contents-box {
@@ -30,7 +26,7 @@
 
     position: absolute;
     left: var(--nav-contents-width-minus);
-    transition: left 0.3s ease-out; /* left 속성이 변경될 때 작동하는 코드 */
+    transition: left 0.3s ease-out;
 }
 
 #nav-contents {
@@ -49,18 +45,6 @@
 main {
     position: relative;
     width: var(--main-width);
-}
-
-.main-default{
-    /* main의 left 값은 0.
-    지금 main의 position은 absolute가 아니다.
-    main이 가운데 정렬인 것은 부모 요소에 flex, justify-content 때문.
-    여기 position: relative는 main을 기준으로 배치되는 nav, header를 위한 것. */
     height: var(--main-height);
     transition: left 0.3s ease-out;
-}
-
-.main-sign {
-    display: flex;
-    justify-content: center;
 }

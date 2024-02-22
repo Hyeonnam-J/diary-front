@@ -3,13 +3,16 @@
 
     --pagination-a-height: 30px;
 
+    --container-width: 1000px;
+    --container-height: 1500px;
+
     --main-width: 1000px;
-    --main-height: 1000px;
+    --main-height: 1200px;
     --nav-contents-width: 300px;
     --nav-contents-width-minus: -300px;
 
-    --header-width: 1000px;
-    --header-height: 50px;
+    --header-width: 1400px;
+    --header-height: 100px;
     
     --logo-width: 200px;
     --logo-height: 40px;
@@ -17,6 +20,7 @@
     --my-contents-box-width: 150px;
     --my-contents-box-height: 200px;
 
+    --signIn-frame-margin: 50px;
     --signIn-frame-contents-width: 500px;
     --signIn-frame-contents-height: 380px;
     --signUp-frame-width: 300px;
@@ -24,7 +28,7 @@
 
     --freeBoard-frame-width: 100%;
     --freeBoard-frame-height: 1000px;
-    --freeBoard-header-height: 200px;
+    --freeBoard-header-height: 100px;
     --freeBoard-footer-height: 200px;
 
     --freeBoard-post-write-width: 1000px;
@@ -35,7 +39,6 @@
     --freeBoard-post-update-height: 1000px;
     --freeBoard-post-read-width: 1000px;
     --freeBoard-post-read-height: 1000px;
-    --freeBoard-post-read-header-height: 200px;
 
     --freeBoard-comment-header-height: 30px;
     --freeBoard-comment-content-max-height: 200px;

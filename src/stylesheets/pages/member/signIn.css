@@ -1,5 +1,9 @@
 @import '../../common/variables.css';
 
+#signInFrame{
+    margin-top: var(--signIn-frame-margin);
+}
+
 #signInFrame-contents {
     width: var(--signIn-frame-contents-width);
     height: var(--signIn-frame-contents-height);

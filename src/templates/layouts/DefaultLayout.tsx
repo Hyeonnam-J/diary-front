@@ -10,7 +10,6 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = (props) => {
-
     const [isNavOpen, setNavOpen] = useState(false);
 
     const callback_fromHeader = () => {
@@ -31,7 +30,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
                 </ul>
             </div>
 
-            <main className='main-default' style={{ left: isNavOpen ? navWidth : '0' }}>
+            <main style={{ left: isNavOpen ? navWidth : '0' }}>
                 {props.children}
             </main>
         </div>

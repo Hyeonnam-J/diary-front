@@ -3,23 +3,7 @@
 #header{
     width: var(--header-width);
     height: var(--header-height);
-
-    position: absolute;
     display: flex;
-
-    background-color: antiquewhite;
-}
-
-#header-left{
-    display: flex;
-
-    position: absolute;
-    top: 0;
-    left: calc(-1 * ( var(--fixed-button-height) + var(--logo-width) ));
-}
-
-#header-right{
-    position: absolute;
-    top: 0;
-    right: calc(-1 * var(--fixed-button-height));
+    justify-content: space-between;
+    align-items: center;
 }
