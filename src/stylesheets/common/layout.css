@@ -12,12 +12,15 @@
     justify-content: center;
 }
 
-#my{
+#header {
     position: absolute;
-    top: 5%;
-    right: 10%;
-
+    
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 999;
+
+    background-color: aqua;
 }
 
 #nav-contents-box {
@@ -60,10 +63,4 @@ main {
 .main-sign {
     display: flex;
     justify-content: center;
-}
-
-nav{
-    position: absolute;
-    top: 5%;
-    left: -10%;
 }
