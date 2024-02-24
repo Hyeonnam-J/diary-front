@@ -13,7 +13,7 @@ const FreeBoardPostReply = () => {
     const postId = location?.state?.postId;
 
     const back = () => {
-        navigate('/freeBoard');
+        navigate('/freeBoard/post/read', { state: { postId: postId } });
     }
 
     const reply = async () => {
@@ -46,8 +46,8 @@ const FreeBoardPostReply = () => {
             <div id='reply-frame'>
                 {/* <div id='reply-space'></div> */}
                 <div id='reply-header'>
-                    <button onClick={ back } className={ Button.primaryOutline }>back</button>
-                    <button onClick={ reply } className={ Button.primary }>submit</button>
+                    <button onClick={ back } className={ Button.primaryOutline }>Back</button>
+                    <button onClick={ reply } className={ Button.primary }>Submit</button>
                 </div>
                 <input type="text" id='reply-title' name="reply-title"/>
                 {/* <div id='reply-custom'></div> */}

@@ -101,7 +101,7 @@ const FreeBoard = () => {
         <DefaultLayout>
             <div id='boardFrame'>
                 <div id='boardHeader'>
-                    <button className={ Button.primary } onClick={ write }>write</button>
+                    <button className={ Button.primary } onClick={ write }>Write</button>
                 </div>
 
                 <div id='boardSection'>
@@ -109,10 +109,10 @@ const FreeBoard = () => {
                         <thead>
                             <tr>
                                 <th style={{ width: '10%' }}></th>
-                                <th style={{ width: '40%' }}>title</th>
-                                <th style={{ width: '20%' }}>writer</th>
-                                <th style={{ width: '20%' }}>date</th>
-                                <th style={{ width: '10%' }}>view</th>
+                                <th style={{ width: '40%' }}>Title</th>
+                                <th style={{ width: '20%' }}>Writer</th>
+                                <th style={{ width: '20%' }}>Date</th>
+                                <th style={{ width: '10%' }}>View</th>
                             </tr>
                         </thead>
                         <tbody>

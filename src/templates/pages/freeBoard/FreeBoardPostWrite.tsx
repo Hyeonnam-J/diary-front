@@ -42,8 +42,8 @@ const FreeBoardPostWrite = () => {
             <div id='write-frame'>
                 {/* <div id='write-space'></div> */}
                 <div id='write-header'>
-                    <button onClick={ back } className={ Button.primaryOutline }>back</button>
-                    <button onClick={ write } className={ Button.primary }>submit</button>
+                    <button onClick={ back } className={ Button.primaryOutline }>Back</button>
+                    <button onClick={ write } className={ Button.primary }>Submit</button>
                 </div>
                 <input type="text" id='write-title' name="write-title"/>
                 {/* <div id='write-custom'></div> */}

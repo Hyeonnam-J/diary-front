@@ -121,7 +121,10 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const updatePost = async (post: FreeBoardPostRead | null) => {
-        if ((memberId || 0) !== post?.member.id) alert('You are not writer');
+        if ((memberId || 0) !== post?.member.id){
+            alert('You are not writer');
+            return;
+        }
 
         const auth = await user();
         if(auth.result){
@@ -130,7 +133,13 @@ const FreeBoardPostDetailRead = () => {
     }
 
     const deletePost = async (post: FreeBoardPostRead | null) => {
-        if ((memberId || 0) !== post?.member.id) alert('You are not writer');
+        if ((memberId || 0) !== post?.member.id){
+            alert('You are not writer');
+            return;
+        }
+
+        // eslint-disable-next-line no-restricted-globals
+        if(! confirm('Do you want to delete this post?') ) return;
         
         const auth_user: Auth = await user();
         if(auth_user.result){
@@ -278,6 +287,9 @@ const FreeBoardPostDetailRead = () => {
             return;
         }
 
+        // eslint-disable-next-line no-restricted-globals
+        if(! confirm('Do you want to delete this comment?') ) return;
+
         const response = await fetch(`${SERVER_IP}/freeBoard/comment/delete/${comment.id}`, {
             method: 'DELETE',
             credentials: "include",
@@ -298,9 +310,9 @@ const FreeBoardPostDetailRead = () => {
         <DefaultLayout>
             <div id='read-frame' className={Layout.centerFrame_width}>
                 <div id='read-header'>
-                    <button onClick={() => replyPost(post)} className={Button.primary}>reply</button>
-                    <button onClick={() => updatePost(post)} className={Button.primary}>update</button>
-                    <button onClick={() => deletePost(post)} className={Button.inactive}>delete</button>
+                    <button onClick={() => replyPost(post)} className={Button.primary}>Reply</button>
+                    <button onClick={() => updatePost(post)} className={Button.primary}>Update</button>
+                    <button onClick={() => deletePost(post)} className={Button.inactive}>Delete</button>
                 </div>
                 
                 {post !== null && (
@@ -336,12 +348,12 @@ const FreeBoardPostDetailRead = () => {
                                     </div>
                                     <div className='read-comment-btns'>
                                         {comment.parent && (
-                                            <p onClick={() => showReplyCommentFrame( comment.id.toString() )}>reply</p>
+                                            <p onClick={() => showReplyCommentFrame( comment.id.toString() )}>Reply</p>
                                         )}
                                         {isCurrentUserComment && (
                                             <>
-                                                <p onClick={() => showUpdateCommentFrame( comment.id.toString() )}>update</p>
-                                                <p onClick={() => deleteComment( comment )}>delete</p>
+                                                <p onClick={() => showUpdateCommentFrame( comment.id.toString() )}>Update</p>
+                                                <p onClick={() => deleteComment( comment )}>Delete</p>
                                             </>
                                         )}
                                     </div>
@@ -352,13 +364,13 @@ const FreeBoardPostDetailRead = () => {
                                 {isUpdatingComment && (
                                     <>
                                         <textarea className='read-comment-update'>{comment.content}</textarea>
-                                        <button onClick={ () => updateComment( comment.id.toString() ) } className={Button.primary}>submit</button>
+                                        <button onClick={ () => updateComment( comment.id.toString() ) } className={Button.primary}>Submit</button>
                                     </>
                                 )}
                                 {isReplyingComment && (
                                     <div className='read-comment-reply'>
                                         <textarea></textarea>
-                                        <button onClick = { () => replyComment( comment.id.toString() ) } className={Button.primary}>submit</button>
+                                        <button onClick = { () => replyComment( comment.id.toString() ) } className={Button.primary}>Submit</button>
                                     </div>
                                 )}
                             </div>
@@ -367,7 +379,7 @@ const FreeBoardPostDetailRead = () => {
                     <div id='read-comment-footer'>
                         <div id='read-comment-write'>
                             <textarea></textarea>
-                            <button onClick = { () => writeComment() } className={Button.primary}>submit</button>
+                            <button onClick = { () => writeComment() } className={Button.primary}>Submit</button>
                         </div>
                         {totalPagesCount > 0 && (
                             <ReactPaginate
@@ -384,7 +396,7 @@ const FreeBoardPostDetailRead = () => {
                     </div>
                 </div>
                 <div id='read-footer'>
-                    <button id='list' onClick={list} className={Button.primary}>list</button>
+                    <button id='list' onClick={list} className={Button.primary}>List</button>
                 </div>
             </div>
         </DefaultLayout>
