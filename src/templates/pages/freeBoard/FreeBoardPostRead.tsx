@@ -322,7 +322,7 @@ const FreeBoardPostDetailRead = () => {
                             <p>{post.member.nick}</p>
                             <div id='post-dataAndViewCount'>
                                 <p>{post.createdDate}</p>
-                                <p>view {post.viewCount}</p>
+                                <p>View {post.viewCount}</p>
                             </div>
                             <p id='post-content' className='textContent'>{post.content}</p>
                         </div>
