@@ -16,7 +16,6 @@ export const responseHandler = async (response: Response): Promise<Auth> => {
             auth.message = 'Please sign in again';
             // todo: navi -> /signIn
 
-            
         }else if(response.status === 401){
             // 권한 없음
             const data: ErrorResponse = await response.json();

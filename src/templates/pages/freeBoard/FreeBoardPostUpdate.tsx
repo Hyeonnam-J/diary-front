@@ -14,7 +14,7 @@ const FreeBoardPostUpdate = () => {
     const post: FreeBoardPostRead = location?.state?.post;
 
     const back = () => {
-        navigate('/freeBoard');
+        navigate('/freeBoard/post/read', { state: { postId: post.id } });
     }
 
     const update = async () => {
@@ -47,8 +47,8 @@ const FreeBoardPostUpdate = () => {
             <div id='update-frame'>
                 {/* <div id='update-space'></div> */}
                 <div id='update-header'>
-                    <button onClick={ back } className={ Button.primaryOutline }>back</button>
-                    <button onClick={update} className={Button.primary}>submit</button>
+                    <button onClick={ back } className={ Button.primaryOutline }>Back</button>
+                    <button onClick={update} className={Button.primary}>Submit</button>
                 </div>
                 <input type="text" id='update-title' name="update-title" defaultValue={post?.title || ''} />
                 {/* <div id='update-custom'></div> */}
