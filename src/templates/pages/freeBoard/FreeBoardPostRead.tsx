@@ -220,7 +220,7 @@ const FreeBoardPostDetailRead = () => {
 
     const showReplyCommentFrame = (commentId: string) => {
         if(memberId === 0){
-            alert('please sign in');
+            alert('Please sign in');
             return;
         }
 
@@ -234,7 +234,7 @@ const FreeBoardPostDetailRead = () => {
 
     const showUpdateCommentFrame = (commentId: string) => {
         if(memberId === 0){
-            alert('please sign in');
+            alert('Please sign in');
             return;
         }
 

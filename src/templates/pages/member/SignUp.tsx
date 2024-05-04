@@ -137,18 +137,18 @@ const SignUp = () => {
             if (!inputValidations[key as keyof typeof inputValidations]) {
                 
                 if(key === 'userName') {
-                    alert("check your name value");
+                    alert("Check your name value");
                     return;
                 }
 
-                alert("check your "+key+" value");
+                alert("Check your "+key+" value");
                 return;
             }
         }
 
         for (const key in duplicateValidations) {
             if(!duplicateValidations[key as keyof typeof duplicateValidations]){
-                alert("check "+key+" duplicate");
+                alert("Check "+key+" duplicate");
                 return;
             }
         }
@@ -161,7 +161,7 @@ const SignUp = () => {
         const phoneNumberInput = document.querySelector('input[name="phoneNumber"]') as HTMLInputElement;
 
         if(passwordInput.value !== passwordConfirmInput.value){
-            alert('check your password confirm');
+            alert('Check your password confirm');
             return;
         }
 
@@ -183,7 +183,7 @@ const SignUp = () => {
 
         if(response.ok){
             if(response.status === 208) {
-                alert('duplicated email or nick. Please check your email and nick');
+                alert('Duplicated email or nick. Please check your email and nick');
                 return;
             }
             navigate('/');
@@ -203,7 +203,7 @@ const SignUp = () => {
                 break;
         }
         if(! inputValid){
-            alert('invalid value');
+            alert('Invalid value');
             return;
         }
 
