@@ -5,7 +5,7 @@ import '../../stylesheets/fragments/logo.css';
 const Logo: React.FC = () => {
     return (
         <Link to={'/'} id='logo'>
-            DIARY
+            DIARY !
         </Link>
     )
 }
