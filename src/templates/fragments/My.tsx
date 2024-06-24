@@ -29,10 +29,10 @@ const My: React.FC = () => {
     }
 
     useEffect(() => {
-        // 새로고침이면,
+        // 새로고침인 경우,
+        // isStay가 false면 쿠키를 지웠으니 여기서 쿠키 다시 저장.
         const isRefresh = sessionStorage.getItem('isRefresh');
         if(isRefresh === 'true'){
-            // isStay가 true면 쿠키를 안 지우니 살아있지만 false면 지워지니 여기 시작 탬플릿에서 다시 할당.
             const isStay = localStorage.getItem('isStay');
             if(isStay === 'false'){
                 const documentDotCookie = sessionStorage.getItem('documentDotCookie');

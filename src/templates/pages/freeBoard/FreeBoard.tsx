@@ -3,7 +3,7 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import DefaultLayout from '../../layouts/DefaultLayout';
 
-import { Page, SERVER_IP } from "../../../Config";
+import { PAGE, SERVER_IP } from "../../../Config";
 
 import { user } from "../../../auth/auth";
 import { FreeBoardPosts, FreeBoardSort } from "../../../type/FreeBoard";
@@ -45,7 +45,7 @@ const FreeBoard = () => {
 
     /* 비동기 때문에 나눠야 한다. */
     useEffect(() => {
-        setTotalPagesCount(Math.ceil(totalPostsCount / Page.perPageSize));
+        setTotalPagesCount(Math.ceil(totalPostsCount / PAGE.perPageSize));
     }, [totalPostsCount]);
 
     useEffect(() => {
@@ -139,7 +139,7 @@ const FreeBoard = () => {
                 <div id='boardFooter'>
                     {totalPagesCount > 0 && (
                         <ReactPaginate
-                            pageRangeDisplayed={Page.perBlockSize}
+                            pageRangeDisplayed={PAGE.perBlockSize}
                             marginPagesDisplayed={1}
                             pageCount={totalPagesCount}
                             onPageChange={ ({selected}) => setCurPage(selected)}
