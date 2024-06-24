@@ -4,21 +4,23 @@ import { deleteCookie } from './auth/cookie';
 import routes, { RouteConfig } from './templates/RouteConfig';
 
 function App() {
+    
     /**
-     * isStay === true, 세션 스토리지 신경 쓸 필요 없다. 로직 신경 쓸 필요 없다.
+     * 나가거나 새로고침 시,
      * 
-     * isStay === false, out일 때 쿠키 삭제. 세션 스토리지는 자동으로 삭제.
-     * isStay === false, refresh일 때 쿠키 어쩔 수 없이 삭제. 세션 스토리지는 유지되므로 초기 탬플릿에서 다시 document.cookie에 세션 스토리지의 쿠키 값 넣어준다.
+     * 나가는데 isStay === true, 아무 처리도 안 하면 된다.
+     * 세션 스토리지 자동 삭제. 로컬 스토리지의 isStay 및 cookie는 존재.
      * 
-     * 새로고침 후 초기 설정은 addEventListener의 load지만 불규칙적으로 동작. My 탬플릿에서 초기 설정 중.
+     * 나가는데 isStay === false, 쿠키를 지우면 된다.
+     * 세션 스토리지 자동 삭제. 쿠키 삭제. 그럼 localStorage에 isStay가 false란 값만 남는다.
+     * 
+     * 새로고침이면 세션 스토리지에 새로고침 판별 여부를 저장해두고
+     * isStay가 false면 쿠키를 삭제했으니, My 탬플릿에서 세션 스토리지에 저장해둔 쿠키를 다시 브라우저에 저장.
      */
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            // 새로고침이면 세션 스토리지는 유지되니 새로고침 탬플릿에서 isRefresh 값을 판별해볼 수 있다.
-            // 새로고침 아니면 어차피 지워질 테니 값은 참으로 통일해도 상관 없음.
             sessionStorage.setItem('isRefresh', 'true');
-
-            // isStay === false, out일 때 쿠키 삭제.
+            
             const isStay = localStorage.getItem('isStay');
             if(isStay === 'false') deleteCookie();
         };
