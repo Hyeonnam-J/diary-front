@@ -32,9 +32,9 @@ const FreeBoard = () => {
             const cookie = getCookie();
             if(cookie){
                 const accessToken = getAccessToken(cookie);
-                const { userId } = parseAccessToken(accessToken);
+                const { memberId  } = parseAccessToken(accessToken);
 
-                setUserId(userId);
+                setUserId(memberId );
             }
         }
 
